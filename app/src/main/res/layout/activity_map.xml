@@ -97,8 +97,17 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="5dp"
                 android:text="Stop" />
+
+            <Button
+                android:id="@+id/takeTripPhotoButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="5dp"
+                android:text="Photo" />
 
         </LinearLayout>
     </LinearLayout>
