@@ -2,6 +2,7 @@ package uk.ac.shef.oak.com4510.Views;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -9,7 +10,9 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.provider.MediaStore;
@@ -17,6 +20,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Chronometer;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -30,6 +34,8 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -41,6 +47,7 @@ import uk.ac.shef.oak.com4510.Models.Temperature;
 import uk.ac.shef.oak.com4510.R;
 import uk.ac.shef.oak.com4510.ViewModels.CameraViewModel;
 import uk.ac.shef.oak.com4510.ViewModels.MapViewModel;
+import uk.ac.shef.oak.com4510.ViewModels.PhotoViewModel;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
     private GoogleMap googleMap;
@@ -57,6 +64,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private Chronometer chronometer;
     private TextView barometerValue;
     private TextView temperatureValue;
+    private ImageView imageThumbnail;
     // Photo model attributes
     static final int REQUEST_IMAGE_CAPTURE = 1;
 
@@ -83,6 +91,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         TextView textView = findViewById(R.id.mapTripName);
         textView.setText(tripName);
 
+        // Temp image thumbnail
+        imageThumbnail = findViewById(R.id.imageThumbnail);
+        //
 
         mapViewModel = ViewModelProviders.of(this).get(MapViewModel.class);
         mapViewModel.getLocAndSensorDataLiveData().observe(this, new Observer<LocAndSensorData>() {
@@ -195,13 +206,50 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     /**
      * Dispatch intent to take a photo , to launch hardware camera
+     *
      * @// TODO: Check has system feature camera
-     *  hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)
+     * hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)
      */
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+            // Create file
+            File photoFile = null;
+            try {
+                PhotoViewModel photoViewModel = new PhotoViewModel(this);
+
+                photoFile = photoViewModel.createImageFile();
+            } catch (IOException ex) {
+                // Error when create file
+            }
+            // continue file exists
+            if (photoFile != null) {
+                Uri photoURI = FileProvider.getUriForFile(this,
+                        "uk.ac.shef.oak.com4510.android.fileProvider",
+                        photoFile);
+                // If no use thumbnails then there is no need to put extra info else
+                // You need to find extra info from photoURI then rescale it again
+                // takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+            }
+        }
+    }
+
+    /**
+     * Create on camera take picture result show picture
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            imageThumbnail.setImageBitmap(imageBitmap);
         }
     }
 }
