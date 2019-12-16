@@ -65,7 +65,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private TextView barometerValue;
     private TextView temperatureValue;
     private ImageView imageThumbnail;
-    // Photo model attributes
+    // PhotoModel model attributes
     static final int REQUEST_IMAGE_CAPTURE = 1;
 
 
@@ -216,9 +216,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
             // Create file
             File photoFile = null;
+            PhotoViewModel photoViewModel = new PhotoViewModel(this);
             try {
-                PhotoViewModel photoViewModel = new PhotoViewModel(this);
-
                 photoFile = photoViewModel.createImageFile();
             } catch (IOException ex) {
                 // Error when create file
@@ -226,12 +225,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             // continue file exists
             if (photoFile != null) {
                 Uri photoURI = FileProvider.getUriForFile(this,
-                        "uk.ac.shef.oak.com4510.android.fileProvider",
+                        "uk.ac.shef.oak.com4510.fileprovider",
                         photoFile);
                 // If no use thumbnails then there is no need to put extra info else
                 // You need to find extra info from photoURI then rescale it again
                 // takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                photoViewModel.saveImageToDb(getApplication(), photoURI.toString());
             }
         }
     }
