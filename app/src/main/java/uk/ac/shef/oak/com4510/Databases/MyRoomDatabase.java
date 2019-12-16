@@ -8,9 +8,9 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-@Database(entities = {LocAndSensorData.class}, version = 2, exportSchema = false)
+@Database(entities = {LocAndSensorData.class,PhotoEntity.class}, version = 2, exportSchema = false)
 public abstract class MyRoomDatabase extends RoomDatabase {
-    public abstract MyDAO myDao();
+    public abstract LocDAO myLocDao();
     public abstract PhotoDAO photoDAO();
     // marking the instance as volatile to ensure atomic access to the variable
     private static volatile MyRoomDatabase INSTANCE;

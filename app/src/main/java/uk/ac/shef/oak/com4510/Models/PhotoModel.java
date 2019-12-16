@@ -2,12 +2,14 @@ package uk.ac.shef.oak.com4510.Models;
 
 import android.app.Application;
 
+import uk.ac.shef.oak.com4510.Databases.MapRepository;
 import uk.ac.shef.oak.com4510.Databases.MyRoomDatabase;
 import uk.ac.shef.oak.com4510.Databases.PhotoDAO;
 import uk.ac.shef.oak.com4510.Databases.PhotoEntity;
+import uk.ac.shef.oak.com4510.Databases.PhotoRepository;
 
 public class PhotoModel {
-    private final PhotoDAO photoDAO;
+    private final PhotoRepository photoRepository;
     private String photoPath;
     private String photoDate;
     int tripId;
@@ -15,8 +17,8 @@ public class PhotoModel {
     private PhotoEntity photoEntity;
 
     public PhotoModel(Application application, String photoPath, String photoDate) {
-        MyRoomDatabase db = MyRoomDatabase.getDatabase(application);
-        photoDAO = db.photoDAO();
+        photoRepository = new PhotoRepository(application);
+
         this.photoPath = photoPath;
         this.photoDate = photoDate;
         this.tripId = 0;
@@ -29,6 +31,6 @@ public class PhotoModel {
      * @// TODO: Change this to async task ?
      */
     public void insertPhotoToDb() {
-        photoDAO.insertOne(photoEntity);
+        photoRepository.insertOnePhotoData(photoEntity);
     }
 }

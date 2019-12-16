@@ -11,7 +11,7 @@ public interface PhotoDAO {
     void insertAll(PhotoEntity... photoEntities);
 
     @Insert
-    void insertOne(PhotoEntity photoEntity);
+    void insert(PhotoEntity photoEntity);
 
     @Delete
     void delete(PhotoEntity photoEntity);

@@ -7,7 +7,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 
 @Dao
-public interface MyDAO {
+public interface LocDAO {
     @Insert
     void insertAll(LocAndSensorData... locAndSensorData);
 
