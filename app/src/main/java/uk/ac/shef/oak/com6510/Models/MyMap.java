@@ -47,7 +47,7 @@ public class MyMap {
         this.tripName = tripName;
         this.temperature = temperature;
         this.started = false;
-        this.tripNumber = this.mapViewModel.getLatestTripId()+1;
+        this.tripNumber = this.mapViewModel.getLatestTripId() + 1;
     }
 
     public void startLocationUpdates() {

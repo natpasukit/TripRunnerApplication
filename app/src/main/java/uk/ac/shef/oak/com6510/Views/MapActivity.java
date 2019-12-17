@@ -81,7 +81,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mButtonEnd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent( MapActivity.this, MainActivity.class);
+                Intent intent = new Intent(MapActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
             }
@@ -108,7 +108,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         chronometer.stop();
     }
 
-    private void initView(){
+    private void initView() {
         chronometer = findViewById(R.id.chronometer);
         chronometer.setFormat("Time: %s");
 
@@ -123,14 +123,14 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         imageThumbnail = findViewById(R.id.imageThumbnail);
     }
 
-    private void initSensor(){
+    private void initSensor() {
         barometer = new Barometer(this);
         current_loc_marker = null;
         accelerometer = new Accelerometer(this, barometer);
         temperature = new Temperature(this);
     }
 
-    private  void initMapViewModel(){
+    private void initMapViewModel() {
         mapViewModel = ViewModelProviders.of(this).get(MapViewModel.class);
         mapViewModel.getLocAndSensorDataLiveData().observe(this, new Observer<LocAndSensorData>() {
             @Override
@@ -161,7 +161,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         });
     }
 
-    private void initMap(){
+    private void initMap() {
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.mapFragment);
@@ -169,7 +169,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         map = new MyMap(this, tripName, barometer, temperature, mapViewModel);
     }
 
-    private void startAll(){
+    private void startAll() {
         chronometer.setBase(SystemClock.elapsedRealtime());
         chronometer.start();
         temperature.startTemperatureSensor();
@@ -209,6 +209,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
      */
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
             // Create file
@@ -227,10 +228,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 // If no use thumbnails then there is no need to put extra info else
                 // You need to find extra info from photoURI then rescale it again
                 // takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
                 photoViewModel.saveImageToDb(getApplication(), photoURI.toString());
             }
         }
+
     }
 
     /**

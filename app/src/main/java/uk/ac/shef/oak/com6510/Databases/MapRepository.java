@@ -22,9 +22,11 @@ public class MapRepository extends ViewModel {
         new insertLocAsyncTask(myLocDao).execute(locAndSensorData);
     }
 
-    public int getLatestTripId(){
+    public int getLatestTripId() {
         try {
-            return (new getLocAsyncTask(myLocDao).execute().get()).getTripId();
+            if (new getLocAsyncTask(myLocDao).execute().get() != null) {
+                return (new getLocAsyncTask(myLocDao).execute().get()).getTripId();
+            }
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -62,7 +64,7 @@ public class MapRepository extends ViewModel {
 
         @Override
         protected LocAndSensorData doInBackground(Void... URL) {
-            Log.i("MyMapRepository","Retieve");
+            Log.i("MyMapRepository", "Retieve");
             return mAsyncTaskDao.retrieveLatestTripData();
         }
     }
