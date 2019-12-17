@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="uk.ac.shef.oak.com4510">
+    package="uk.ac.shef.oak.com6510">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
@@ -18,9 +18,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Views.MapActivity"></activity>
+        <activity android:name="uk.ac.shef.oak.com6510.Views.MapActivity"></activity>
         <activity
-            android:name=".Views.MainActivity"
+            android:name="uk.ac.shef.oak.com6510.Views.MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -35,7 +35,7 @@
             android:value="@string/google_maps_key" />
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="uk.ac.shef.oak.com4510.fileprovider"
+            android:authorities="uk.ac.shef.oak.com6510.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

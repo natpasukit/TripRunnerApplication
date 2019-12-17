@@ -1,9 +1,8 @@
-package uk.ac.shef.oak.com4510.Databases;
+package uk.ac.shef.oak.com6510.Databases;
 
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
-import androidx.room.Query;
 
 @Dao
 public interface PhotoDAO {

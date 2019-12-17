@@ -1,4 +1,4 @@
-package uk.ac.shef.oak.com4510.Views;
+package uk.ac.shef.oak.com6510.Views;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -7,8 +7,6 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -37,17 +35,15 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Map;
 
-import uk.ac.shef.oak.com4510.Databases.LocAndSensorData;
-import uk.ac.shef.oak.com4510.Models.Accelerometer;
-import uk.ac.shef.oak.com4510.Models.Barometer;
-import uk.ac.shef.oak.com4510.Models.MyMap;
-import uk.ac.shef.oak.com4510.Models.Temperature;
-import uk.ac.shef.oak.com4510.R;
-import uk.ac.shef.oak.com4510.ViewModels.CameraViewModel;
-import uk.ac.shef.oak.com4510.ViewModels.MapViewModel;
-import uk.ac.shef.oak.com4510.ViewModels.PhotoViewModel;
+import uk.ac.shef.oak.com6510.Databases.LocAndSensorData;
+import uk.ac.shef.oak.com6510.Models.Accelerometer;
+import uk.ac.shef.oak.com6510.Models.Barometer;
+import uk.ac.shef.oak.com6510.Models.MyMap;
+import uk.ac.shef.oak.com6510.Models.Temperature;
+import uk.ac.shef.oak.com6510.R;
+import uk.ac.shef.oak.com6510.ViewModels.MapViewModel;
+import uk.ac.shef.oak.com6510.ViewModels.PhotoViewModel;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
     private GoogleMap googleMap;

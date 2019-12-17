@@ -1,4 +1,4 @@
-package uk.ac.shef.oak.com4510.Models;
+package uk.ac.shef.oak.com6510.Models;
 
 import android.Manifest;
 import android.app.Activity;
@@ -20,9 +20,8 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import uk.ac.shef.oak.com4510.Databases.LocAndSensorData;
-import uk.ac.shef.oak.com4510.ViewModels.MapViewModel;
-import uk.ac.shef.oak.com4510.Databases.LocAndSensorData;
+import uk.ac.shef.oak.com6510.Databases.LocAndSensorData;
+import uk.ac.shef.oak.com6510.ViewModels.MapViewModel;
 
 public class MyMap {
 

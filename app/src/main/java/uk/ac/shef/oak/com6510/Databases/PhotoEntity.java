@@ -1,12 +1,7 @@
-package uk.ac.shef.oak.com4510.Databases;
+package uk.ac.shef.oak.com6510.Databases;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
-import androidx.room.TypeConverter;
-
-import java.util.Date;
-
-import uk.ac.shef.oak.com4510.Utils.TimestampConverter;
 
 /**
  * Define photo database entity

@@ -1,12 +1,9 @@
-package uk.ac.shef.oak.com4510.Models;
+package uk.ac.shef.oak.com6510.Models;
 
 import android.app.Application;
 
-import uk.ac.shef.oak.com4510.Databases.MapRepository;
-import uk.ac.shef.oak.com4510.Databases.MyRoomDatabase;
-import uk.ac.shef.oak.com4510.Databases.PhotoDAO;
-import uk.ac.shef.oak.com4510.Databases.PhotoEntity;
-import uk.ac.shef.oak.com4510.Databases.PhotoRepository;
+import uk.ac.shef.oak.com6510.Databases.PhotoEntity;
+import uk.ac.shef.oak.com6510.Databases.PhotoRepository;
 
 public class PhotoModel {
     private final PhotoRepository photoRepository;

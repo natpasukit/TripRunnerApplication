@@ -1,4 +1,4 @@
-package uk.ac.shef.oak.com4510.Models;
+package uk.ac.shef.oak.com6510.Models;
 
 import android.content.Context;
 import android.hardware.Sensor;

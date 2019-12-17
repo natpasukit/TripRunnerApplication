@@ -1,9 +1,7 @@
-package uk.ac.shef.oak.com4510.ViewModels;
+package uk.ac.shef.oak.com6510.ViewModels;
 
 import android.app.Application;
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Environment;
 
 import java.io.File;
@@ -12,7 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import uk.ac.shef.oak.com4510.Models.PhotoModel;
+import uk.ac.shef.oak.com6510.Models.PhotoModel;
 
 public class PhotoViewModel {
     String currentPhotoPath;

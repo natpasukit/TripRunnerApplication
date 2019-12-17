@@ -1,4 +1,4 @@
-package uk.ac.shef.oak.com4510.ViewModels;
+package uk.ac.shef.oak.com6510.ViewModels;
 
 import android.app.Application;
 
@@ -6,10 +6,8 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import uk.ac.shef.oak.com4510.Databases.LocAndSensorData;
-import uk.ac.shef.oak.com4510.Databases.MapRepository;
-import uk.ac.shef.oak.com4510.Databases.LocAndSensorData;
-import uk.ac.shef.oak.com4510.Databases.MapRepository;
+import uk.ac.shef.oak.com6510.Databases.LocAndSensorData;
+import uk.ac.shef.oak.com6510.Databases.MapRepository;
 
 public class MapViewModel extends AndroidViewModel {
     private final MapRepository mapRepository;

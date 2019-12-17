@@ -1,4 +1,4 @@
-package uk.ac.shef.oak.com4510.Views;
+package uk.ac.shef.oak.com6510.Views;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.text.SimpleDateFormat;
 
-import uk.ac.shef.oak.com4510.R;
+import uk.ac.shef.oak.com6510.R;
 
 public class MainActivity extends AppCompatActivity {
 
