@@ -6,6 +6,8 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import uk.ac.shef.oak.com6510.Databases.LocAndSensorData;
 import uk.ac.shef.oak.com6510.Databases.MapRepository;
 
@@ -26,6 +28,8 @@ public class MapViewModel extends AndroidViewModel {
     }
 
     public int getStopId() { return mapRepository.getStopId(); }
+
+    public LatLng getLatestLoc() { return mapRepository.getLatestLoc(); }
 
     public LiveData<LocAndSensorData> getLocAndSensorDataLiveData(){
         if (locAndSensorDataLiveData == null) {

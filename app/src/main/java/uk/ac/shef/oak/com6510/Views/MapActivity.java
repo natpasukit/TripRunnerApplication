@@ -248,6 +248,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             imageThumbnail.setImageBitmap(imageBitmap);
+            googleMap.addMarker(new MarkerOptions().position(mapViewModel.getLatestLoc()));
         }
     }
 }
