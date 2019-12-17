@@ -36,6 +36,7 @@ public class MyMap {
     private String mLastUpdateTime;
     private ArrayList<LatLng> latLngs = new ArrayList<LatLng>();
     private int tripNumber;
+    private int stopId;
     private MapViewModel mapViewModel;
     private String tripName;
 
@@ -106,6 +107,7 @@ public class MyMap {
                 Log.i("BARMAP", "Barometer" + barometer.toString());
                 Log.i("TEMPMAP", "Temperature" + temperature.toString());
                 LocAndSensorData l = new LocAndSensorData(temperature.getLatestValue(), barometer.getLatestValue(), barometer.getLatestAccuracy(), mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude(), tripNumber, tripName);
+                stopId = l.getId();
                 mapViewModel.insertOneData(l);
             }
         }
@@ -142,6 +144,10 @@ public class MyMap {
 
     public boolean getStarted() {
         return started;
+    }
+
+    public int getStopId() {
+        return stopId;
     }
 
     public ArrayList<LatLng> getLatLngs() {
