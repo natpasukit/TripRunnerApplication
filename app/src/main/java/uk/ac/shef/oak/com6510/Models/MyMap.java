@@ -40,7 +40,6 @@ public class MyMap {
     private String tripName;
 
     public MyMap(Context context, String tripName, Barometer barometer, Temperature temperature, MapViewModel mapViewModel) {
-
         this.context = context;
         this.barometer = barometer;
         this.mapViewModel = mapViewModel;
