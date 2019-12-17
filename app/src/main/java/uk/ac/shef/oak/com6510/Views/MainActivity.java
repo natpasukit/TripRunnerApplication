@@ -65,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent = new Intent(MainActivity.this, MapActivity.class);
                     intent.putExtra("tripName", tripName);
                     startActivity(intent);
+                    finish();
                 } else {
                     errorMessage.setText(R.string.errorEmptyTripNameMain);
                 }

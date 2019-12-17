@@ -46,7 +46,7 @@ public class Temperature {
                     // see answer 2 at http://stackoverflow.com/questions/5500765/accelerometer-sensorevent-timestamp
                     // the following operation avoids reporting too many events too quickly - the sensor may always
                     // misbehave and start sending data very quickly
-                    if (diff >= mSamplingRateNano) {
+                    if (diff >= mSamplingRateNano || latestValue == -1000) {
                         long actualTimeInMseconds = timePhoneWasLastRebooted + (long) (event.timestamp / 1000000.0);
                         latestValue = event.values[0];
 

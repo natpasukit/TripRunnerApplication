@@ -8,6 +8,8 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
+import java.util.concurrent.ExecutionException;
+
 public class MapRepository extends ViewModel {
     private final LocDAO myLocDao;
 
@@ -18,6 +20,17 @@ public class MapRepository extends ViewModel {
 
     public void insertOneData(@NonNull LocAndSensorData locAndSensorData) {
         new insertLocAsyncTask(myLocDao).execute(locAndSensorData);
+    }
+
+    public int getLatestTripId(){
+        try {
+            return (new getLocAsyncTask(myLocDao).execute().get()).getTripId();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     public LiveData<LocAndSensorData> getLatestData() {
@@ -37,6 +50,20 @@ public class MapRepository extends ViewModel {
             mAsyncTaskDao.insert(params[0]);
             Log.i("MyMapRepository", params[0].toString());
             return null;
+        }
+    }
+
+    private static class getLocAsyncTask extends AsyncTask<Void, Void, LocAndSensorData> {
+        private LocDAO mAsyncTaskDao;
+
+        getLocAsyncTask(LocDAO dao) {
+            mAsyncTaskDao = dao;
+        }
+
+        @Override
+        protected LocAndSensorData doInBackground(Void... URL) {
+            Log.i("MyMapRepository","Retieve");
+            return mAsyncTaskDao.retrieveLatestTripData();
         }
     }
 

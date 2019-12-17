@@ -54,7 +54,7 @@ public class Accelerometer {
                     if (deltaX < 2) deltaX = 0;
                     if (deltaY < 2) deltaY = 0;
                     if (deltaZ < 2) deltaZ = 0;
-                    if (deltaX > 0 || deltaY > 0 || deltaZ > 0) {
+                    if (deltaX > 0 || deltaY > 0 || deltaZ > 0 || barometer.getLatestValue() == -1000) {
                         Log.i(TAG, Utilities.mSecsToString(actualTimeInMseconds) + ": significant motion detected - x: " + deltaX + ", y: " + deltaY + ", z:" + deltaZ);
                         if (!barometer.isStarted())
                             barometer.startSensingPressure(Accelerometer.this);

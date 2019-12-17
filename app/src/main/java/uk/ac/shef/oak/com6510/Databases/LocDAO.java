@@ -21,6 +21,9 @@ public interface LocDAO {
     @Query("SELECT * FROM loc_and_sensor_data ORDER BY id DESC LIMIT 1")
     LiveData<LocAndSensorData> retrieveOneData();
 
+    @Query("SELECT * FROM loc_and_sensor_data ORDER BY tripId DESC LIMIT 1")
+    LocAndSensorData retrieveLatestTripData();
+
     @Query("SELECT * FROM loc_and_sensor_data ORDER BY id DESC")
     LiveData<LocAndSensorData> retrieveAllData();
 

@@ -46,8 +46,8 @@ public class MyMap {
         this.mapViewModel = mapViewModel;
         this.tripName = tripName;
         this.temperature = temperature;
-        started = false;
-        tripNumber = 0;
+        this.started = false;
+        this.tripNumber = this.mapViewModel.getLatestTripId()+1;
     }
 
     public void startLocationUpdates() {
@@ -139,8 +139,6 @@ public class MyMap {
 
     public void setStarted(boolean started) {
         this.started = started;
-        if (!started)
-            tripNumber++;
     }
 
     public boolean getStarted() {

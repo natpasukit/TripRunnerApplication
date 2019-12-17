@@ -20,6 +20,10 @@ public class MapViewModel extends AndroidViewModel {
         locAndSensorDataLiveData = mapRepository.getLatestData();
     }
 
+    public int getLatestTripId(){
+        return  mapRepository.getLatestTripId();
+    }
+
     public LiveData<LocAndSensorData> getLocAndSensorDataLiveData(){
         if (locAndSensorDataLiveData == null) {
             locAndSensorDataLiveData = new MutableLiveData<LocAndSensorData>();
