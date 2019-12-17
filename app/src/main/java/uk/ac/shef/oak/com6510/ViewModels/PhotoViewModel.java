@@ -38,9 +38,9 @@ public class PhotoViewModel {
         return image;
     }
 
-    public void saveImageToDb(Application application, String photoPath, int lastTripId) {
+    public void saveImageToDb(Application application, String photoPath, int lastTripId, int lastStopId) {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.UK).format(new Date());
-        PhotoModel photoModel = new PhotoModel(application, photoPath, timeStamp, lastTripId);
+        PhotoModel photoModel = new PhotoModel(application, photoPath, timeStamp, lastTripId,lastStopId);
         photoModel.insertPhotoToDb();
     }
 
