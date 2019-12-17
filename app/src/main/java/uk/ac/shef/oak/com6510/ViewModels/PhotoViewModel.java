@@ -2,6 +2,8 @@ package uk.ac.shef.oak.com6510.ViewModels;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Environment;
 
 import java.io.File;
@@ -13,9 +15,9 @@ import java.util.Locale;
 import uk.ac.shef.oak.com6510.Models.PhotoModel;
 
 public class PhotoViewModel {
-    String currentPhotoPath;
-    Context context;
-    File image;
+    private String currentPhotoPath;
+    private Context context;
+    private File image;
 
     public PhotoViewModel(Context context) {
         this.context = context;
@@ -32,21 +34,21 @@ public class PhotoViewModel {
                 storageDir      /* directory */
         );
         currentPhotoPath = image.getAbsolutePath();
-//        galleryAddPic();
+        galleryAddPic();
         return image;
     }
 
-    public void saveImageToDb(Application application, String photoPath) {
+    public void saveImageToDb(Application application, String photoPath, int lastTripId) {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.UK).format(new Date());
-        PhotoModel photoModel = new PhotoModel(application, photoPath, timeStamp);
+        PhotoModel photoModel = new PhotoModel(application, photoPath, timeStamp, lastTripId);
         photoModel.insertPhotoToDb();
     }
 
-//    private void galleryAddPic() {
-//        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-//        File f = new File(currentPhotoPath);
-//        Uri contentUri = Uri.fromFile(f);
-//        mediaScanIntent.setData(contentUri);
-//        this.context.sendBroadcast(mediaScanIntent);
-//    }
+    private void galleryAddPic() {
+        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        File f = new File(currentPhotoPath);
+        Uri contentUri = Uri.fromFile(f);
+        mediaScanIntent.setData(contentUri);
+        this.context.sendBroadcast(mediaScanIntent);
+    }
 }

@@ -13,12 +13,12 @@ public class PhotoModel {
     int tripStopId;
     private PhotoEntity photoEntity;
 
-    public PhotoModel(Application application, String photoPath, String photoDate) {
+    public PhotoModel(Application application, String photoPath, String photoDate, int tripId) {
         photoRepository = new PhotoRepository(application);
 
         this.photoPath = photoPath;
         this.photoDate = photoDate;
-        this.tripId = 0;
+        this.tripId = tripId;
         this.tripStopId = 0;
         this.photoEntity = new PhotoEntity(this.tripId, this.tripStopId, this.photoPath, this.photoDate);
 
