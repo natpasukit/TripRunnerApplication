@@ -24,15 +24,17 @@ public class MapRepository extends ViewModel {
 
     public int getLatestTripId() {
         try {
-            if (new getLocAsyncTask(myLocDao).execute().get() != null) {
-                return (new getLocAsyncTask(myLocDao).execute().get()).getTripId();
-            }
+            LocAndSensorData locAndSensorData = new getLocAsyncTask(myLocDao).execute().get();
+            if (locAndSensorData != null)
+                return locAndSensorData.getTripId();
+            else
+                return -1;
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        return 0;
+        return -1;
     }
 
     public LiveData<LocAndSensorData> getLatestData() {
