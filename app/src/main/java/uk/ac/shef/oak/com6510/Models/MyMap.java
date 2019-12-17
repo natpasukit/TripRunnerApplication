@@ -17,6 +17,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -99,14 +100,16 @@ public class MyMap {
         public void onLocationResult(LocationResult locationResult) {
             super.onLocationResult(locationResult);
             mCurrentLocation = locationResult.getLastLocation();
-            mLastUpdateTime = DateFormat.getTimeInstance().format(new Date());
+            long date = System.currentTimeMillis();
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy/hh:mm:ss a");
+            mLastUpdateTime = sdf.format(date);
 
             if (started) {
                 latLngs.add(new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude()));
                 Log.i("MAP", tripNumber + ": new location " + mCurrentLocation.toString());
                 Log.i("BARMAP", "Barometer" + barometer.toString());
                 Log.i("TEMPMAP", "Temperature" + temperature.toString());
-                LocAndSensorData l = new LocAndSensorData(temperature.getLatestValue(), barometer.getLatestValue(), barometer.getLatestAccuracy(), mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude(), tripNumber, tripName);
+                LocAndSensorData l = new LocAndSensorData(mLastUpdateTime, temperature.getLatestValue(), barometer.getLatestValue(), barometer.getLatestAccuracy(), mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude(), tripNumber, tripName);
                 stopId = l.getId();
                 mapViewModel.insertOneData(l);
             }
