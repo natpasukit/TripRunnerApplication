@@ -34,10 +34,9 @@ public class MyMap {
     private Temperature temperature;
     private boolean started;
     private Location mCurrentLocation;
-    private String mLastUpdateTime;
+    private long mLastUpdateTime;
     private ArrayList<LatLng> latLngs = new ArrayList<LatLng>();
     private int tripNumber;
-    private int stopId;
     private MapViewModel mapViewModel;
     private String tripName;
 
@@ -100,9 +99,7 @@ public class MyMap {
         public void onLocationResult(LocationResult locationResult) {
             super.onLocationResult(locationResult);
             mCurrentLocation = locationResult.getLastLocation();
-            long date = System.currentTimeMillis();
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy/hh:mm:ss a");
-            mLastUpdateTime = sdf.format(date);
+            mLastUpdateTime = System.currentTimeMillis();
 
             if (started) {
                 latLngs.add(new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude()));
@@ -110,7 +107,6 @@ public class MyMap {
                 Log.i("BARMAP", "Barometer" + barometer.toString());
                 Log.i("TEMPMAP", "Temperature" + temperature.toString());
                 LocAndSensorData l = new LocAndSensorData(mLastUpdateTime, temperature.getLatestValue(), barometer.getLatestValue(), barometer.getLatestAccuracy(), mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude(), tripNumber, tripName);
-                stopId = l.getId();
                 mapViewModel.insertOneData(l);
             }
         }
@@ -147,10 +143,6 @@ public class MyMap {
 
     public boolean getStarted() {
         return started;
-    }
-
-    public int getStopId() {
-        return stopId;
     }
 
     public ArrayList<LatLng> getLatLngs() {

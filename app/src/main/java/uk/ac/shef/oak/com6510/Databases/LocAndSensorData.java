@@ -18,9 +18,9 @@ public class LocAndSensorData {
     private double latitude;
     private int tripId;
     private String tripName;
-    private String timeStamp;
+    private long timeStamp;
 
-    public LocAndSensorData(String timeStamp,float temperature_value, float preasure_value, int preasure_vaule_accurany, double latitude, double longitude, int tripId, String tripName) {
+    public LocAndSensorData(long timeStamp,float temperature_value, float preasure_value, int preasure_vaule_accurany, double latitude, double longitude, int tripId, String tripName) {
         this.preasure_value = preasure_value;
         this.preasure_vaule_accurany = preasure_vaule_accurany;
         this.latitude = latitude;
@@ -63,7 +63,7 @@ public class LocAndSensorData {
         return tripName;
     }
 
-    public String getTimeStamp() { return timeStamp; }
+    public long getTimeStamp() { return timeStamp; }
 
     public void setTripId(int tripId) {
         this.tripId = tripId;
@@ -89,7 +89,7 @@ public class LocAndSensorData {
 
     public void setTemperature_value(float temperature_value) { this.temperature_value = temperature_value; }
 
-    public void setTimeStamp(String timeStamp) { this.timeStamp = timeStamp; }
+    public void setTimeStamp(long timeStamp) { this.timeStamp = timeStamp; }
 
     public void setId(int id) {
         this.id = id;

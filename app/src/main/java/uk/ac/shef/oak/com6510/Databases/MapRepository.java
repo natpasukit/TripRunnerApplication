@@ -24,7 +24,7 @@ public class MapRepository extends ViewModel {
 
     public int getLatestTripId() {
         try {
-            LocAndSensorData locAndSensorData = new getLocAsyncTask(myLocDao).execute().get();
+            LocAndSensorData locAndSensorData = new getLatestTripAsyncTask(myLocDao).execute().get();
             if (locAndSensorData != null)
                 return locAndSensorData.getTripId();
             else
@@ -35,6 +35,21 @@ public class MapRepository extends ViewModel {
             e.printStackTrace();
         }
         return -1;
+    }
+
+    public int getStopId(){
+        try {
+            LocAndSensorData locAndSensorData = new getLatestLocAsyncTask(myLocDao).execute().get();
+            if (locAndSensorData != null)
+                return locAndSensorData.getId();
+            else
+                return 0;
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     public LiveData<LocAndSensorData> getLatestData() {
@@ -57,10 +72,10 @@ public class MapRepository extends ViewModel {
         }
     }
 
-    private static class getLocAsyncTask extends AsyncTask<Void, Void, LocAndSensorData> {
+    private static class getLatestTripAsyncTask extends AsyncTask<Void, Void, LocAndSensorData> {
         private LocDAO mAsyncTaskDao;
 
-        getLocAsyncTask(LocDAO dao) {
+        getLatestTripAsyncTask(LocDAO dao) {
             mAsyncTaskDao = dao;
         }
 
@@ -71,4 +86,17 @@ public class MapRepository extends ViewModel {
         }
     }
 
+    private static class getLatestLocAsyncTask extends AsyncTask<Void, Void, LocAndSensorData> {
+        private LocDAO mAsyncTaskDao;
+
+        getLatestLocAsyncTask(LocDAO dao) {
+            mAsyncTaskDao = dao;
+        }
+
+        @Override
+        protected LocAndSensorData doInBackground(Void... URL) {
+            Log.i("MyMapRepository", "Retieve");
+            return mAsyncTaskDao.retrieveLatestTripData();
+        }
+    }
 }

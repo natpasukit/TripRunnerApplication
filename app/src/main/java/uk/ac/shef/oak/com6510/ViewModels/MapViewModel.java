@@ -13,6 +13,7 @@ public class MapViewModel extends AndroidViewModel {
     private final MapRepository mapRepository;
 
     public LiveData<LocAndSensorData> locAndSensorDataLiveData;
+    public int stopId;
 
     public MapViewModel(Application application){
         super(application);
@@ -23,6 +24,8 @@ public class MapViewModel extends AndroidViewModel {
     public int getLatestTripId(){
         return  mapRepository.getLatestTripId();
     }
+
+    public int getStopId() { return mapRepository.getStopId(); }
 
     public LiveData<LocAndSensorData> getLocAndSensorDataLiveData(){
         if (locAndSensorDataLiveData == null) {

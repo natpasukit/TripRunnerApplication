@@ -228,7 +228,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 // If no use thumbnails then there is no need to put extra info else
                 // You need to find extra info from photoURI then rescale it again
                 // takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                photoViewModel.saveImageToDb(getApplication(), photoURI.toString(), mapViewModel.getLatestTripId(), map.getStopId());
+                photoViewModel.saveImageToDb(getApplication(), photoURI.toString(), mapViewModel.getLatestTripId(), mapViewModel.getStopId());
             }
         }
 
