@@ -8,12 +8,8 @@
     tools:context="uk.ac.shef.oak.com6510.Views.ImageActivity"
     tools:showIn="@layout/activity_image">
 
-    <ImageView
-        android:id="@+id/sampleImageView"
-        android:layout_width="400dp"
-        android:layout_height="600dp"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp"
-        tools:srcCompat="@tools:sample/backgrounds/scenic"
-        tools:ignore="MissingConstraints" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/picture_preview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
