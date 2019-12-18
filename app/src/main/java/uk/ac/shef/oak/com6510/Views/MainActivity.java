@@ -84,7 +84,6 @@ public class MainActivity extends AppCompatActivity {
                 // To test to show latest image
                  Intent intent = new Intent(MainActivity.this, ImageActivity.class);
                  startActivity(intent);
-                 finish();
             }
         });
     }
