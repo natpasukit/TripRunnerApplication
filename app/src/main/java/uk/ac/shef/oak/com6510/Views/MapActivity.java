@@ -2,14 +2,18 @@ package uk.ac.shef.oak.com6510.Views;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -17,7 +21,9 @@ import android.hardware.Camera;
 import android.media.Image;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -25,6 +31,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -41,6 +48,7 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -53,6 +61,8 @@ import uk.ac.shef.oak.com6510.Models.Temperature;
 import uk.ac.shef.oak.com6510.R;
 import uk.ac.shef.oak.com6510.ViewModels.MapViewModel;
 import uk.ac.shef.oak.com6510.ViewModels.PhotoViewModel;
+
+import static java.lang.System.out;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
     private GoogleMap googleMap;
@@ -71,7 +81,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private ImageView imageThumbnail;
     // PhotoModel model attributes
     static final int REQUEST_TAKE_PHOTO = 1;
-    private String lastPhotoPath = null;
+    static final int REQUEST_UPLOAD_PHOTO = 2;
+    static final Integer READ_STORAGE_PERMISSION_REQUEST_CODE = 0x3;
+    private PhotoViewModel photoViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +93,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         initView();
         initSensor();
         initMapViewModel();
+        initPhotoViewModel();
         initMap();
 
         startAll();
@@ -106,6 +119,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 }
             });
         }
+        final FloatingActionButton uploadPhotoButton = (FloatingActionButton) findViewById(R.id.uploadPhotoButton);
+        uploadPhotoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dispatchUploadPictureIntent();
+            }
+        });
     }
 
     @Override
@@ -173,6 +193,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         });
     }
 
+    private void initPhotoViewModel() {
+        photoViewModel = new PhotoViewModel(this);
+    }
+
     private void initMap() {
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -222,7 +246,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             // Create file
             File photoFile = null;
-            PhotoViewModel photoViewModel = new PhotoViewModel(this);
+
             try {
                 photoFile = photoViewModel.createImageFile();
             } catch (IOException ex) {
@@ -237,12 +261,17 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 // If EXTRA_OUTPUT were input into intent the result of onActivity result of data will be null, but the image will be saved
                 // Else the result will be thumbnail image from camera.
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                takePictureIntent.putExtra("photoPath", photoFile.getAbsolutePath());
                 startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
-                lastPhotoPath = photoFile.getAbsolutePath();
-                photoViewModel.saveImageToDb(getApplication(), lastPhotoPath, mapViewModel.getLatestTripId(), mapViewModel.getStopId());
             }
         }
+    }
 
+    private void dispatchUploadPictureIntent() {
+        Intent uploadPictureIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        // Only allow local file
+        uploadPictureIntent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
+        startActivityForResult(uploadPictureIntent, REQUEST_UPLOAD_PHOTO);
     }
 
     /**
@@ -255,29 +284,77 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK && lastPhotoPath != null) {
-            File file = new File(lastPhotoPath);
-            if (file.exists()) {
-                // Making a thumbnails
-                Bitmap bitmapThumbnail = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(file.getAbsolutePath()),90,120);
-                imageThumbnail.setImageBitmap(bitmapThumbnail);
-                Marker m = googleMap.addMarker(new MarkerOptions().position(mapViewModel.getLatestLoc()));
-            }
+        String lastPhotoPath = null;
+        File file = null;
+        switch (requestCode) {
+            case REQUEST_TAKE_PHOTO:
+                // Cannot pass extra data into intent
+                out.println(photoViewModel.getCurrentPhotoPath());
+                lastPhotoPath = photoViewModel.getCurrentPhotoPath();
+                if (resultCode == RESULT_OK && lastPhotoPath != null) {
+                    file = new File(lastPhotoPath);
+                }
+                break;
+            case REQUEST_UPLOAD_PHOTO:
+                Uri uploadPhotoUri = data.getData();
+                if (resultCode == RESULT_OK && uploadPhotoUri != null && uploadPhotoUri.getPath() != null) {
+                    // Get true path from uri
+                    Cursor cursor = getContentResolver().query(data.getData(), null, null, null, null);
+                    if (cursor != null) {
+                        cursor.moveToFirst();
+                        int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+                        if (!checkPermissionForReadExternalStorage(MapActivity.this)) {
+                            requestPermissionForReadExternalStorage(MapActivity.this);
+                        }
+                        // Upload file to application storage
+                        File photoFile = null;
+
+                        try {
+                            photoFile = photoViewModel.createImageFile();
+                        } catch (IOException ex) {
+                            // Error when create file
+                        }
+                        if (photoFile != null) {
+                            lastPhotoPath = photoFile.getAbsolutePath();
+                            file = new File(lastPhotoPath);
+                            // Try copy file
+                            try {
+                                FileOutputStream out = new FileOutputStream(file);
+                                BitmapFactory.decodeFile(cursor.getString(idx)).compress(Bitmap.CompressFormat.JPEG, 90, out);
+                                cursor.close();
+                                out.flush();
+                                out.close();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }
+                break;
+            default:
+                break;
+        }
+        if (file != null && file.exists()) {
+            photoViewModel.saveImageToDb(getApplication(), lastPhotoPath, mapViewModel.getLatestTripId(), mapViewModel.getStopId());
+            Bitmap bitmapThumbnail = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(file.getAbsolutePath()), 90, 120);
+            imageThumbnail.setImageBitmap(bitmapThumbnail);
+            Marker m = googleMap.addMarker(new MarkerOptions().position(mapViewModel.getLatestLoc()));
         }
     }
 
     /**
      * Check either camera exist or not
      * If camera do not exists remove take photo using camera
-     * @param context
-     * @param button
+     *
+     * @param context context of current activity
+     * @param button  button to hide and set enable option
      * @return Boolean for camera exist
      */
     private boolean checkCameraExist(Context context, FloatingActionButton button) {
         // There seem to be a bug for old android version where device return true for feature camera thus a need of numberOfcamera checking
         int cameraNumber = Camera.getNumberOfCameras();
         PackageManager packageManager = context.getPackageManager();
-        Boolean cameraExist = packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY);
+        boolean cameraExist = packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY);
         if (cameraExist && cameraNumber >= 1) {
             return true;
 
@@ -285,6 +362,28 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             button.setEnabled(false);
             button.hide();
             return false;
+        }
+    }
+
+    public boolean checkPermissionForReadExternalStorage(Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            int result = context.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE);
+            return result == PackageManager.PERMISSION_GRANTED;
+        }
+        return false;
+    }
+
+    /**
+     * @param context
+     * @// TODO: 12/18/2019 Fix unhandle rejection , add thrrows exception
+     */
+    public void requestPermissionForReadExternalStorage(Context context) {
+        try {
+            ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    READ_STORAGE_PERMISSION_REQUEST_CODE);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
         }
     }
 }

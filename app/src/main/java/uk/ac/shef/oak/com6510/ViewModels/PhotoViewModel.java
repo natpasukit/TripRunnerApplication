@@ -11,6 +11,7 @@ import android.widget.ImageView;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -25,7 +26,6 @@ public class PhotoViewModel {
     private Context context;
     private File image;
     private Application application = null;
-
     public PhotoViewModel(Context context) {
         this.context = context;
     }
@@ -59,8 +59,8 @@ public class PhotoViewModel {
     }
 
     private void galleryAddPic() {
-        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-        File f = new File(currentPhotoPath);
+        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse(currentPhotoPath));
+        File f = new File(this.currentPhotoPath);
         Uri contentUri = Uri.fromFile(f);
         mediaScanIntent.setData(contentUri);
         this.context.sendBroadcast(mediaScanIntent);
@@ -105,5 +105,9 @@ public class PhotoViewModel {
         } else {
             return null;
         }
+    }
+
+    public String getCurrentPhotoPath() {
+        return currentPhotoPath;
     }
 }
