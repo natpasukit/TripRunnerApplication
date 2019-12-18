@@ -3,8 +3,11 @@ package uk.ac.shef.oak.com6510.ViewModels;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
+import android.widget.ImageView;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,7 +15,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import uk.ac.shef.oak.com6510.Databases.MapRepository;
 import uk.ac.shef.oak.com6510.Databases.PhotoEntity;
 import uk.ac.shef.oak.com6510.Databases.PhotoRepository;
 import uk.ac.shef.oak.com6510.Models.PhotoModel;
@@ -69,5 +71,39 @@ public class PhotoViewModel {
             return this.photoRepository.getLatestPhotoInfo();
         } else
             return null;
+    }
+
+    /**
+     * Get the latest image bitmap photo from path in database then rescale it into imageView size
+     * Return original bitmap , return null if context application was not set
+     * @param imageView
+     * @return Bitmap
+     */
+    public Bitmap getLatestBitmapPhoto(ImageView imageView) {
+        if (this.application != null) {
+            // Get imageView size
+            int targetW = imageView.getWidth();
+            int targetH = imageView.getHeight();
+            // Set dimension of bitmap
+            BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+            if (targetH != 0 && targetW != 0) {
+                // In-case imageView is wrapper
+                bmOptions.inJustDecodeBounds = true;
+                int photoW = bmOptions.outWidth;
+                int photoH = bmOptions.outHeight;
+
+                // Set image scale factor
+                int scaleFactor = Math.min(photoW / targetW, photoH / targetH);
+
+                // Set decoder options
+                bmOptions.inJustDecodeBounds = false;
+                bmOptions.inSampleSize = scaleFactor;
+                bmOptions.inPurgeable = true;
+            }
+            Bitmap bitmap = BitmapFactory.decodeFile(this.photoRepository.getLatestPhotoInfo().getPhotoFileDirectory(), bmOptions);
+            return bitmap;
+        } else {
+            return null;
+        }
     }
 }

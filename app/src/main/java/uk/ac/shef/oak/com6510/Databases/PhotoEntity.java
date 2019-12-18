@@ -13,12 +13,12 @@ import androidx.room.PrimaryKey;
 public class PhotoEntity {
     // Autogenerate photo id
     @PrimaryKey(autoGenerate = true)
-    public int photoId;
+    private int photoId;
 
-    public int tripId;
-    public int tripStopId;
-    public String photoFileDirectory;
-    public String photoDate;
+    private int tripId;
+    private int tripStopId;
+    private String photoFileDirectory;
+    private String photoDate;
 
     /**
      * @// TODO: Use type converter to create datetime for photo
@@ -31,5 +31,45 @@ public class PhotoEntity {
         this.tripStopId = tripStopId;
         this.photoFileDirectory = photoFileDirectory;
         this.photoDate = photoDate;
+    }
+
+    public int getTripId() {
+        return tripId;
+    }
+
+    public int getTripStopId() {
+        return tripStopId;
+    }
+
+    public String getPhotoDate() {
+        return photoDate;
+    }
+
+    public String getPhotoFileDirectory() {
+        return photoFileDirectory;
+    }
+
+    public int getPhotoId() {
+        return photoId;
+    }
+
+    public void setPhotoDate(String photoDate) {
+        this.photoDate = photoDate;
+    }
+
+    public void setPhotoFileDirectory(String photoFileDirectory) {
+        this.photoFileDirectory = photoFileDirectory;
+    }
+
+    public void setTripId(int tripId) {
+        this.tripId = tripId;
+    }
+
+    public void setTripStopId(int tripStopId) {
+        this.tripStopId = tripStopId;
+    }
+
+    public void setPhotoId(int photoId) {
+        this.photoId = photoId;
     }
 }
