@@ -24,9 +24,6 @@ public class PhotoModel {
 
     }
 
-    /**
-     * @// TODO: Change this to async task ?
-     */
     public void insertPhotoToDb() {
         photoRepository.insertOnePhotoData(photoEntity);
     }
