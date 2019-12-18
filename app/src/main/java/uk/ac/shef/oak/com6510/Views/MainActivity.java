@@ -10,6 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.text.SimpleDateFormat;
 
 import uk.ac.shef.oak.com6510.R;
@@ -71,6 +73,19 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     errorMessage.setText(R.string.errorEmptyTripNameMain);
                 }
+            }
+        });
+        /**
+         * Set button lister to go to imageActivity
+         * @// TODO: Direct to gallery instead
+         */
+        final FloatingActionButton floatingActionButton = (FloatingActionButton) findViewById(R.id.accessPhotoGallery);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // To test to show latest image
+                 Intent intent = new Intent(MainActivity.this, GalleryActivity.class);
+                 startActivity(intent);
             }
         });
     }

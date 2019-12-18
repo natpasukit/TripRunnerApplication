@@ -4,12 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="uk.ac.shef.oak.com6510.Views.ImageActivity"
-    tools:showIn="@layout/activity_image">
+    tools:context="uk.ac.shef.oak.com6510.Views.GalleryActivity">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/picture_preview"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/tripGalleryInformationRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical" />
+    </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

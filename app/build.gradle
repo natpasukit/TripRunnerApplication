@@ -49,5 +49,6 @@ dependencies {
     testImplementation "android.arch.persistence.room:testing:$room_version"
     implementation "android.arch.persistence.room:rxjava2:$room_version"
 
-    implementation 'com.github.jkwiecien:EasyImage:2.1.0'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation 'androidx.cardview:cardview:1.0.0'
 }
