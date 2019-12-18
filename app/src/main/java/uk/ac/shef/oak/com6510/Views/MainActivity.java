@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // To test to show latest image
-                 Intent intent = new Intent(MainActivity.this, ImageActivity.class);
+                 Intent intent = new Intent(MainActivity.this, GalleryActivity.class);
                  startActivity(intent);
             }
         });
