@@ -20,12 +20,6 @@ public class PhotoEntity {
     private String photoFileDirectory;
     private String photoDate;
 
-    /**
-     * @// TODO: Use type converter to create datetime for photo
-     */
-    // ISO8601 strings (“YYYY-MM-DD HH:MM:SS.SSS”)
-    // @TypeConverter({TimestampConverter.class})
-    // public Date lastModified;
     public PhotoEntity(int tripId, int tripStopId, String photoFileDirectory, String photoDate) {
         this.tripId = tripId;
         this.tripStopId = tripStopId;
