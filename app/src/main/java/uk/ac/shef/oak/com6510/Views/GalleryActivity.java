@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 
 import uk.ac.shef.oak.com6510.R;
+import uk.ac.shef.oak.com6510.ViewModels.TripGalleryAdapter;
 
 public class GalleryActivity extends AppCompatActivity {
 
@@ -22,8 +23,7 @@ public class GalleryActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
 
         // Set adapter for recycler view
-        String[] strings = {"trip1", "trip2", "trip3"};
-        RecyclerView.Adapter adapter = new TripGalleryAdapter(strings);
+        RecyclerView.Adapter adapter = new TripGalleryAdapter(this.getApplication(),this);
         recyclerView.setAdapter(adapter);
     }
 }

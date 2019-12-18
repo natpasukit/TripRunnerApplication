@@ -3,11 +3,14 @@ package uk.ac.shef.oak.com6510.Databases;
 import androidx.room.Embedded;
 import androidx.room.Relation;
 
+import java.util.List;
+
 public class LocAndSensorDataAndPhotoRelation {
     @Embedded public LocAndSensorData locAndSensorData;
     @Relation(
             parentColumn = "id",
-            entityColumn = "tripStopId"
+            entityColumn = "tripStopId",
+            entity = PhotoEntity.class
     )
-    public PhotoEntity photoEntity;
+    public List<PhotoEntity> photoEntities;
 }

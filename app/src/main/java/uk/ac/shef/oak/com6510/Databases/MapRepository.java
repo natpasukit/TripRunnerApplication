@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class MapRepository extends ViewModel {
@@ -39,7 +40,7 @@ public class MapRepository extends ViewModel {
         return -1;
     }
 
-    public int getStopId(){
+    public int getStopId() {
         try {
             LocAndSensorData locAndSensorData = new getLatestLocAsyncTask(myLocDao).execute().get();
             if (locAndSensorData != null)
@@ -54,20 +55,22 @@ public class MapRepository extends ViewModel {
         return 0;
     }
 
-    public LatLng getLatestLoc(){
+
+    public LatLng getLatestLoc() {
         try {
             LocAndSensorData locAndSensorData = new getLatestLocAsyncTask(myLocDao).execute().get();
             if (locAndSensorData != null)
-                return new LatLng(locAndSensorData.getLatitude(),locAndSensorData.getLongitude());
+                return new LatLng(locAndSensorData.getLatitude(), locAndSensorData.getLongitude());
             else
-                return new LatLng(0,0);
+                return new LatLng(0, 0);
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        return new LatLng(0,0);
+        return new LatLng(0, 0);
     }
+
 
     public LiveData<LocAndSensorData> getLatestData() {
         return myLocDao.retrieveOneData();
