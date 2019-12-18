@@ -7,10 +7,13 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.hardware.Camera;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -93,12 +96,14 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
          * Create take a photo button using CameraViewModel intent
          */
         final FloatingActionButton photoButton = (FloatingActionButton) findViewById(R.id.takePhotoButton);
-        photoButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dispatchTakePictureIntent();
-            }
-        });
+        if (checkCameraExist(MapActivity.this, photoButton)) {
+            photoButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dispatchTakePictureIntent();
+                }
+            });
+        }
     }
 
     @Override
@@ -208,8 +213,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     /**
      * Dispatch intent to take a photo , to launch hardware camera
-     *
-     * @// TODO: Check has system feature camera
      * hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)
      */
     private void dispatchTakePictureIntent() {
@@ -264,6 +267,28 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 // finish();
                 Marker m = googleMap.addMarker(new MarkerOptions().position(mapViewModel.getLatestLoc()));
             }
+        }
+    }
+
+    /**
+     * Check either camera exist or not
+     * If camera do not exists remove take photo using camera
+     * @param context
+     * @param button
+     * @return Boolean for camera exist
+     */
+    private boolean checkCameraExist(Context context, FloatingActionButton button) {
+        // There seem to be a bug for old android version where device return true for feature camera thus a need of numberOfcamera checking
+        int cameraNumber = Camera.getNumberOfCameras();
+        PackageManager packageManager = context.getPackageManager();
+        Boolean cameraExist = packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY);
+        if (cameraExist && cameraNumber >= 1) {
+            return true;
+
+        } else {
+            button.setEnabled(false);
+            button.hide();
+            return false;
         }
     }
 }
