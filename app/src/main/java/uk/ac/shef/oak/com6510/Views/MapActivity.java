@@ -26,6 +26,8 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -49,13 +51,12 @@ import uk.ac.shef.oak.com6510.ViewModels.PhotoViewModel;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
     private GoogleMap googleMap;
-    private Button mButtonStart;
     private Button mButtonEnd;
     private Barometer barometer;
     private Temperature temperature;
     private Accelerometer accelerometer;
     private MyMap map;
-    private Marker current_loc_marker;
+    private Marker currentLocMarker;
     private MapViewModel mapViewModel;
     private Polyline polyline;
     private String tripName;
@@ -127,7 +128,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     private void initSensor() {
         barometer = new Barometer(this);
-        current_loc_marker = null;
+        currentLocMarker = null;
         accelerometer = new Accelerometer(this, barometer);
         temperature = new Temperature(this);
     }
@@ -138,10 +139,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             @Override
             public void onChanged(@NonNull final LocAndSensorData locAndSensorData) {
                 if (locAndSensorData != null) {
-                    if (current_loc_marker == null) {
-                        current_loc_marker = googleMap.addMarker(new MarkerOptions().position(new LatLng(locAndSensorData.getLatitude(), locAndSensorData.getLongitude())));
+                    if (currentLocMarker == null) {
+                        currentLocMarker = googleMap.addMarker(new MarkerOptions().position(new LatLng(locAndSensorData.getLatitude(), locAndSensorData.getLongitude())));
+                        currentLocMarker.setTitle("I'm here");
+                        currentLocMarker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE));
                     } else {
-                        current_loc_marker.setPosition(new LatLng(locAndSensorData.getLatitude(), locAndSensorData.getLongitude()));
+                        currentLocMarker.setPosition(new LatLng(locAndSensorData.getLatitude(), locAndSensorData.getLongitude()));
                         Log.i("marker", "" + locAndSensorData.getLatitude() + " , " + locAndSensorData.getLongitude());
                     }
 
@@ -259,7 +262,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 // Intent intent = new Intent(MapActivity.this, ImageActivity.class);
                 // startActivity(intent);
                 // finish();
-                googleMap.addMarker(new MarkerOptions().position(mapViewModel.getLatestLoc()));
+                Marker m = googleMap.addMarker(new MarkerOptions().position(mapViewModel.getLatestLoc()));
             }
         }
     }
