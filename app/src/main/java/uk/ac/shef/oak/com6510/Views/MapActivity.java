@@ -14,6 +14,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.hardware.Camera;
+import android.media.Image;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -257,14 +259,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             File file = new File(lastPhotoPath);
             if (file.exists()) {
                 // Making a thumbnails
-                // Bundle extras = data.getExtras();
-                // Bitmap imageBitmap = (Bitmap) extras.get("data");
-                // imageThumbnail.setImageBitmap(bitmap);
-
-                // To test to show latest image
-                // Intent intent = new Intent(MapActivity.this, ImageActivity.class);
-                // startActivity(intent);
-                // finish();
+                Bitmap bitmapThumbnail = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(file.getAbsolutePath()),90,120);
+                imageThumbnail.setImageBitmap(bitmapThumbnail);
                 Marker m = googleMap.addMarker(new MarkerOptions().position(mapViewModel.getLatestLoc()));
             }
         }
