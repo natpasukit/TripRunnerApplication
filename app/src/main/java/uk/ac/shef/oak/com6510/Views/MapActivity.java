@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProviders;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -37,6 +38,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import uk.ac.shef.oak.com6510.Databases.LocAndSensorData;
+import uk.ac.shef.oak.com6510.Databases.PhotoEntity;
 import uk.ac.shef.oak.com6510.Models.Accelerometer;
 import uk.ac.shef.oak.com6510.Models.Barometer;
 import uk.ac.shef.oak.com6510.Models.MyMap;
@@ -62,8 +64,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private TextView temperatureValue;
     private ImageView imageThumbnail;
     // PhotoModel model attributes
-    static final int REQUEST_IMAGE_CAPTURE = 1;
-
+    static final int REQUEST_TAKE_PHOTO = 1;
+    private String lastPhotoPath = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -209,9 +211,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
      */
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
             // Create file
             File photoFile = null;
             PhotoViewModel photoViewModel = new PhotoViewModel(this);
@@ -222,13 +222,16 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             }
             // continue file exists
             if (photoFile != null) {
+                // Put it out to provide it to other application just in case.
                 Uri photoURI = FileProvider.getUriForFile(this,
                         "uk.ac.shef.oak.com6510.fileprovider",
                         photoFile);
-                // If no use thumbnails then there is no need to put extra info else
-                // You need to find extra info from photoURI then rescale it again
-                // takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                photoViewModel.saveImageToDb(getApplication(), photoURI.toString(), mapViewModel.getLatestTripId(), mapViewModel.getStopId());
+                // If EXTRA_OUTPUT were input into intent the result of onActivity result of data will be null, but the image will be saved
+                // Else the result will be thumbnail image from camera.
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+                lastPhotoPath = photoFile.getAbsolutePath();
+                photoViewModel.saveImageToDb(getApplication(), lastPhotoPath, mapViewModel.getLatestTripId(), mapViewModel.getStopId());
             }
         }
 
@@ -244,11 +247,20 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-            imageThumbnail.setImageBitmap(imageBitmap);
-            googleMap.addMarker(new MarkerOptions().position(mapViewModel.getLatestLoc()));
+        if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK && lastPhotoPath != null) {
+            File file = new File(lastPhotoPath);
+            if (file.exists()) {
+                // Making a thumbnails
+                // Bundle extras = data.getExtras();
+                // Bitmap imageBitmap = (Bitmap) extras.get("data");
+                // imageThumbnail.setImageBitmap(bitmap);
+
+                // To test to show latest image
+                // Intent intent = new Intent(MapActivity.this, ImageActivity.class);
+                // startActivity(intent);
+                // finish();
+                googleMap.addMarker(new MarkerOptions().position(mapViewModel.getLatestLoc()));
+            }
         }
     }
 }

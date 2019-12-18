@@ -8,6 +8,8 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
+import java.util.concurrent.ExecutionException;
+
 public class PhotoRepository extends ViewModel {
     private final PhotoDAO myPhotoDAO;
 
@@ -16,8 +18,19 @@ public class PhotoRepository extends ViewModel {
         myPhotoDAO = db.photoDAO();
     }
 
-    public void insertOnePhotoData(@NonNull PhotoEntity photoEntity){
+    public void insertOnePhotoData(@NonNull PhotoEntity photoEntity) {
         new insertPhotoAsyncTask(myPhotoDAO).execute(photoEntity);
+    }
+
+    public PhotoEntity getLatestPhotoInfo() {
+        try {
+            return new getLatestPhotoInfoAsyncTask(myPhotoDAO).execute().get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     private static class insertPhotoAsyncTask extends AsyncTask<PhotoEntity, Void, Void> {
@@ -36,4 +49,16 @@ public class PhotoRepository extends ViewModel {
         }
     }
 
+    private static class getLatestPhotoInfoAsyncTask extends AsyncTask<Void, Void, PhotoEntity> {
+        private PhotoDAO mAsyncTaskDao;
+
+        getLatestPhotoInfoAsyncTask(PhotoDAO dao) {
+            mAsyncTaskDao = dao;
+        }
+
+        @Override
+        protected PhotoEntity doInBackground(Void... voids) {
+            return mAsyncTaskDao.getLatestPhotoInfo();
+        }
+    }
 }

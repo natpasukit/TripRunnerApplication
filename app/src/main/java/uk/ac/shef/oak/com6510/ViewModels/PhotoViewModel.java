@@ -12,16 +12,28 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import uk.ac.shef.oak.com6510.Databases.MapRepository;
+import uk.ac.shef.oak.com6510.Databases.PhotoEntity;
+import uk.ac.shef.oak.com6510.Databases.PhotoRepository;
 import uk.ac.shef.oak.com6510.Models.PhotoModel;
 
 public class PhotoViewModel {
+    private PhotoRepository photoRepository;
     private String currentPhotoPath;
     private Context context;
     private File image;
+    private Application application = null;
 
     public PhotoViewModel(Context context) {
         this.context = context;
     }
+
+    public PhotoViewModel(Application application) {
+        super();
+        this.application = application;
+        this.photoRepository = new PhotoRepository(application);
+    }
+
 
     public File createImageFile() throws IOException {
         // Create an image file name
@@ -40,7 +52,7 @@ public class PhotoViewModel {
 
     public void saveImageToDb(Application application, String photoPath, int lastTripId, int lastStopId) {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.UK).format(new Date());
-        PhotoModel photoModel = new PhotoModel(application, photoPath, timeStamp, lastTripId,lastStopId);
+        PhotoModel photoModel = new PhotoModel(application, photoPath, timeStamp, lastTripId, lastStopId);
         photoModel.insertPhotoToDb();
     }
 
@@ -50,5 +62,12 @@ public class PhotoViewModel {
         Uri contentUri = Uri.fromFile(f);
         mediaScanIntent.setData(contentUri);
         this.context.sendBroadcast(mediaScanIntent);
+    }
+
+    public PhotoEntity getLatestPhoto() {
+        if (this.application != null) {
+            return this.photoRepository.getLatestPhotoInfo();
+        } else
+            return null;
     }
 }
