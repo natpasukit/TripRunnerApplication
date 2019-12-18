@@ -102,9 +102,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mButtonEnd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MapActivity.this, MainActivity.class);
-                startActivity(intent);
-                finish();
+                goBackToNewTrip("");
             }
         });
         /**
@@ -129,6 +127,35 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        map.resume();
+    }
+
+    @SuppressLint("MissingPermission")
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        map.permissionsResult(requestCode, permissions, grantResults);
+    }
+
+    /**
+     * @param googleMap Check google map ui setting , then set google map settings attributes
+     */
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        this.googleMap = googleMap;
+        googleMap.getUiSettings().setZoomControlsEnabled(true);
+
+        boolean started = map.startLocationIntentService();
+        if(!started)
+            goBackToNewTrip("Need Location Permission.\nPlease add permission in settings.");
+        else
+            map.setStarted(true);
+
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         map.stopLocationUpdates();
@@ -136,6 +163,17 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         accelerometer.stopAccelerometer();
         temperature.stopTemperatureSensor();
         chronometer.stop();
+    }
+
+    public static Activity getActivity(){
+        return getActivity();
+    }
+
+    private void goBackToNewTrip(String mess){
+        Intent intent = new Intent(MapActivity.this, MainActivity.class);
+        intent.putExtra("message",mess);
+        startActivity(intent);
+        finish();
     }
 
     private void initView() {
@@ -186,7 +224,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                         temperatureValue.setText("Temperature: " + temperature.getLatestValue());
                     if (barometer.getLatestValue() != -1000)
                         barometerValue.setText("Barometer: " + barometer.getLatestValue());
-                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(locAndSensorData.getLatitude(), locAndSensorData.getLongitude()), 16.0f));
+                    if(locAndSensorData.getId() % 2 == 0)
+                        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(locAndSensorData.getLatitude(), locAndSensorData.getLongitude()), 16.0f));
                 }
 
             }
@@ -210,31 +249,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         chronometer.start();
         temperature.startTemperatureSensor();
         accelerometer.startAccelerometerRecording();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        map.resume();
-    }
-
-    @SuppressLint("MissingPermission")
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
-        map.permissionsResult(requestCode, permissions, grantResults);
-    }
-
-    /**
-     * @param googleMap Check google map ui setting , then set google map settings attributes
-     */
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        this.googleMap = googleMap;
-        googleMap.getUiSettings().setZoomControlsEnabled(true);
-
-        map.startLocationUpdates();
-        map.setStarted(true);
     }
 
     /**
