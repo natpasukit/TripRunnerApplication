@@ -6,9 +6,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import uk.ac.shef.oak.com6510.Models.PhotoModel;
 import uk.ac.shef.oak.com6510.R;
 
 public class GalleryActivity extends AppCompatActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +28,10 @@ public class GalleryActivity extends AppCompatActivity {
 
         // Set adapter for recycler view
         String[] strings = {"trip1", "trip2", "trip3"};
+
         RecyclerView.Adapter adapter = new TripGalleryAdapter(strings);
         recyclerView.setAdapter(adapter);
     }
+
+
 }

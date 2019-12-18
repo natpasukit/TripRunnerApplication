@@ -17,15 +17,41 @@
             android:layout_height="230dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="15dp" />
-
-        <TextView
-            android:id="@+id/detail_description"
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="Trip Name + Tempature + pressure"
-            android:textSize="18sp"
-            android:padding="5dp"/>
+            >
+            <TextView
+                android:id="@+id/tripName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Trip Name"
+                android:textSize="18sp"
+                android:padding="5dp"/>
+
+            <TextView
+                android:id="@+id/temperatureValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Tempure"
+                android:textSize="18sp"
+                android:padding="5dp"/>
+
+            <TextView
+                android:id="@+id/barometerValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="barometer"
+                android:textSize="18sp"
+                android:padding="5dp"/>
+
+        </LinearLayout>
+
+
 
         <fragment
             android:id="@+id/mapFragment2"
