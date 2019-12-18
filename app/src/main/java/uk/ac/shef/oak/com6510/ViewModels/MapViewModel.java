@@ -8,6 +8,8 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.ArrayList;
+
 import uk.ac.shef.oak.com6510.Databases.LocAndSensorData;
 import uk.ac.shef.oak.com6510.Databases.MapRepository;
 
