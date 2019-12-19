@@ -41,6 +41,6 @@ public interface LocDAO {
     @Query("SELECT COUNT(*) FROM loc_and_sensor_data")
     int howManyElements();
 
-    @Query("SELECT * FROM loc_and_sensor_data GROUP BY tripId ORDER BY id DESC")
+    @Query("SELECT tripId as _id, tripName, max(timeStamp) as tripEnd  FROM loc_and_sensor_data GROUP BY tripId ORDER BY id DESC")
     Cursor retrieveAllTrip();
 }

@@ -3,10 +3,12 @@ package uk.ac.shef.oak.com6510.ViewModels;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CursorAdapter;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,15 +20,41 @@ import uk.ac.shef.oak.com6510.R;
 public class TripGalleryAdapter extends RecyclerView.Adapter<TripGalleryAdapter.ViewHolder> {
     private Application application;
     private Context context;
-    private String[] tripNameList;
     private GalleryRepository galleryRepository;
     private MapRepository mapRepository;
+    private Cursor tripCursorList;
+    private int rowIdColumn;
+    private CursorAdapter cursorAdapter;
 
     public TripGalleryAdapter(Application application, Context context) {
         this.application = application;
         this.context = context;
         this.galleryRepository = new GalleryRepository(application);
         this.mapRepository = new MapRepository(application);
+        // Load trip data cursor
+        this.tripCursorList = this.mapRepository.getAllTripName();
+        this.cursorAdapter = new CursorAdapter(context, this.tripCursorList, 0) {
+            @Override
+            public View newView(Context context, Cursor cursor, ViewGroup parent) {
+                LayoutInflater inflater = LayoutInflater.from(context);
+                // Inflate layout
+                View view = inflater.inflate(R.layout.trip_gallery_card, parent, false);
+//                ViewHolder viewHolder = new ViewHolder(view);
+                return view;
+
+            }
+
+            @Override
+            public void bindView(View view, Context context, Cursor cursor) {
+                int tripId = cursor.getInt(cursor.getColumnIndex("_id"));
+                String tripName = cursor.getString(cursor.getColumnIndex("tripName"));
+                TextView textView = (TextView) view.findViewById(R.id.tripGalleryName);
+                Button button = (Button) view.findViewById(R.id.tripGalleryButton);
+                textView.setText(tripName);
+//                button.setText(tripId);
+            }
+        };
+
     }
 
     // Provide a reference to the views for each data item
@@ -47,14 +75,16 @@ public class TripGalleryAdapter extends RecyclerView.Adapter<TripGalleryAdapter.
     // Create new view by layout manager
     @Override
     public TripGalleryAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Context context = parent.getContext();
-        LayoutInflater inflater = LayoutInflater.from(context);
-
-        // Inflate layout
-        View view = inflater.inflate(R.layout.trip_gallery_card, parent, false);
-
-        ViewHolder viewHolder = new ViewHolder(view);
-        return viewHolder;
+        View view = this.cursorAdapter.newView(this.context, this.cursorAdapter.getCursor(), parent);
+        return new ViewHolder(view);
+//        Context context = parent.getContext();
+//        LayoutInflater inflater = LayoutInflater.from(context);
+//
+//        // Inflate layout
+//        View view = inflater.inflate(R.layout.trip_gallery_card, parent, false);
+//
+//        ViewHolder viewHolder = new ViewHolder(view);
+//        return viewHolder;
     }
 
     // Replace the contents of a view (invoked by the layout manager)
@@ -62,12 +92,13 @@ public class TripGalleryAdapter extends RecyclerView.Adapter<TripGalleryAdapter.
     public void onBindViewHolder(ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.tripGalleryName.setText(tripNameList[position]);
+        this.cursorAdapter.getCursor().moveToPosition(position);
+        this.cursorAdapter.bindView(holder.itemView, this.context, this.cursorAdapter.getCursor());
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return tripNameList.length;
+        return cursorAdapter.getCount();
     }
 }
