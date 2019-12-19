@@ -277,6 +277,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
     }
 
+    /**
+     * Dispatch intent to pick a photo from gallery
+     * Require a permission to ACTION_PICK
+     */
     private void dispatchUploadPictureIntent() {
         Intent uploadPictureIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         // Only allow local file
@@ -285,11 +289,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     /**
-     * Create on camera take picture result show picture
-     *
-     * @param requestCode
-     * @param resultCode
-     * @param data
+     * Create on camera take picture result show picture then create a file / copy file to target path.
+     * This also create a thumbnail of that picture using rescale from viewModel then save the picture info to database.
+     * @param requestCode Intent of request code with REQUEST_TAKE_PHOTO and REQUEST_UPLOAD_PHOTO
+     * @param resultCode Result of operation of intent (RESULT_OK = -1)
+     * @param data Data intent from cavera activity
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -387,6 +391,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
     }
 
+    /**
+     * Check the permission and android version to check that application need to request permission or not.
+     *
+     * @param context Context of this activity
+     * @return boolean of authority for permission for externalStorage
+     */
     public boolean checkPermissionForReadExternalStorage(Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             int result = context.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE);
@@ -396,8 +406,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     /**
-     * @param context
-     * @// TODO: 12/18/2019 Fix unhandle rejection , add thrrows exception
+     * Request the permission at runTime for read external storage (This was needed for android > 6.0)
+     *
+     * @param context Context of this activity
      */
     public void requestPermissionForReadExternalStorage(Context context) {
         try {

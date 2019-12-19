@@ -10,8 +10,18 @@ import android.widget.ImageView;
 import uk.ac.shef.oak.com6510.R;
 import uk.ac.shef.oak.com6510.ViewModels.PhotoViewModel;
 
+/**
+ * FullImageActivity
+ * Manage activity in full image view for user
+ */
 public class FullImageActivity extends AppCompatActivity {
 
+    /**
+     * On create load layout then set imageView to image path from previous intent call.
+     * Also finish the intent as an end point of project.
+     *
+     * @param savedInstanceState Bundle
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

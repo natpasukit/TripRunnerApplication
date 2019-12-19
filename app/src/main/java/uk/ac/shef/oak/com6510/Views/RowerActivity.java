@@ -15,6 +15,10 @@ import uk.ac.shef.oak.com6510.R;
 import uk.ac.shef.oak.com6510.ViewModels.TripGalleryAdapter;
 
 
+/**
+ * RowerActivity
+ * Manage activity in row route path view for user
+ */
 public class RowerActivity extends AppCompatActivity {
     private static final int GRID_COLUMN_NUMBER = 3;
     private RecyclerView.LayoutManager layoutManager;
@@ -39,6 +43,12 @@ public class RowerActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
     }
 
+    /**
+     * Create option menu with a recycler view
+     *
+     * @param menu Menu
+     * @return boolean result of operation
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -46,6 +56,12 @@ public class RowerActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Check option from menu selector
+     *
+     * @param item menu item
+     * @return boolean result of operation
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -55,13 +71,16 @@ public class RowerActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_sort) {
-            System.out.println(id);
             sortOptionsDialog();
         }
 
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * sortOptionDialog
+     * Manage and handle listener of every click in option using dialog builder
+     */
     private void sortOptionsDialog() {
 
         String options[] = {"By Ascend Date order", "By Descend Date order", "By Grid image"};
