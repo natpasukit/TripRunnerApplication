@@ -31,7 +31,7 @@ public class ImageViewAdapter {
         for (this.pointsCursorList.moveToFirst(); !this.pointsCursorList.isAfterLast(); this.pointsCursorList.moveToNext()) {
             int currId = this.pointsCursorList.getInt(this.pointsCursorList.getColumnIndex("id"));
             float currPressureValue = this.pointsCursorList.getFloat(this.pointsCursorList.getColumnIndex("preasureValue"));
-            int currPressureAccurancy = this.pointsCursorList.getInt(this.pointsCursorList.getColumnIndex("preasureVauleAccurany"));
+            int currPressureAccurancy = this.pointsCursorList.getInt(this.pointsCursorList.getColumnIndex("preasureVauleAccurancy"));
             Double currLon = this.pointsCursorList.getDouble(this.pointsCursorList.getColumnIndex("longitude"));
             Double currLat = this.pointsCursorList.getDouble(this.pointsCursorList.getColumnIndex("latitude"));
 

@@ -15,6 +15,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+/**
+ * Define a repository to get location and sensor data from room database
+ */
+
 public class MapRepository extends ViewModel {
     private final LocDAO myLocDao;
 
@@ -23,10 +27,19 @@ public class MapRepository extends ViewModel {
         myLocDao = db.myLocDao();
     }
 
+    /**
+     * use Asynctask to insert one row into the table
+     * @param locAndSensorData a new row in the table
+     */
     public void insertOneData(@NonNull LocAndSensorData locAndSensorData) {
         new insertLocAsyncTask(myLocDao).execute(locAndSensorData);
     }
 
+    /**
+     * get lastest id of trip from loc database in descending order
+     * @return Integer trip id, return -1 if no data
+     * @throws Exception on error
+     */
     public int getLatestTripId() {
         try {
             LocAndSensorData locAndSensorData = new getLatestTripAsyncTask(myLocDao).execute().get();
@@ -42,6 +55,12 @@ public class MapRepository extends ViewModel {
         return -1;
     }
 
+
+    /**
+     * get the latest the id of the table row
+     * @return Integer id, return 0 if there is no data
+     * @throws Exception on error
+     */
     public int getStopId() {
         try {
             LocAndSensorData locAndSensorData = new getLatestLocAsyncTask(myLocDao).execute().get();
@@ -57,7 +76,11 @@ public class MapRepository extends ViewModel {
         return 0;
     }
 
-
+    /**
+     * get the latest location
+     * @return LatLng the latest location in the database
+     * @throws Exception on error
+     */
     public LatLng getLatestLoc() {
         try {
             LocAndSensorData locAndSensorData = new getLatestLocAsyncTask(myLocDao).execute().get();
@@ -73,6 +96,11 @@ public class MapRepository extends ViewModel {
         return new LatLng(0, 0);
     }
 
+    /**
+     * get all the rows grouped by the trip id
+     * @return Cursor for a list of table row
+     * @throws Exception on error
+     */
     public Cursor getAllTripName(){
         try {
             Cursor mCursor = new getAllTripNameAsyncTask(myLocDao).execute().get();
@@ -88,6 +116,12 @@ public class MapRepository extends ViewModel {
         return null;
     }
 
+    /**
+     * get all the rows with the tripId
+     * @param tripId the flag to identify a trip
+     * @return a Cursor for a list of desired row
+     * @throws Exception on error
+     */
     public Cursor getAllPointsInOneTrip(int tripId){
         try {
             Cursor mCursor = new getAllPointsInOneTripAsyncTask(myLocDao).execute(tripId).get();
@@ -104,10 +138,18 @@ public class MapRepository extends ViewModel {
     }
 
 
+    /**
+     * get the latest location data in the table
+     * @return a Cursor for latest row
+     * @throws Exception on error
+     */
     public LiveData<LocAndSensorData> getLatestData() {
         return myLocDao.retrieveOneData();
     }
 
+    /**
+     * the internal class for Async task to insert a row
+     */
     private static class insertLocAsyncTask extends AsyncTask<LocAndSensorData, Void, Void> {
         private LocDAO mAsyncTaskDao;
         private LiveData<LocAndSensorData> numberData;
@@ -116,6 +158,11 @@ public class MapRepository extends ViewModel {
             mAsyncTaskDao = dao;
         }
 
+        /**
+         * async task
+         * @param params a list of table that need to insert into the data
+         * @return null
+         */
         @Override
         protected Void doInBackground(final LocAndSensorData... params) {
             mAsyncTaskDao.insert(params[0]);
@@ -124,6 +171,9 @@ public class MapRepository extends ViewModel {
         }
     }
 
+    /**
+     * the internal class for Async task to get the latest trip id
+     */
     private static class getLatestTripAsyncTask extends AsyncTask<Void, Void, LocAndSensorData> {
         private LocDAO mAsyncTaskDao;
 
@@ -131,6 +181,11 @@ public class MapRepository extends ViewModel {
             mAsyncTaskDao = dao;
         }
 
+        /**
+         * async task
+         * @param URL no use
+         * @return a ob
+         */
         @Override
         protected LocAndSensorData doInBackground(Void... URL) {
             Log.i("MyMapRepository", "Retieve latest trip");

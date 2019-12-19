@@ -19,6 +19,11 @@ import java.util.concurrent.ExecutionException;
 public class GalleryRepository extends ViewModel {
     private final PhotoDAO myPhotoDAO;
 
+    /**
+     * init the new gallery repository
+     *
+     * @param application get current application
+     */
     public GalleryRepository(Application application) {
         MyRoomDatabase db = MyRoomDatabase.getDatabase(application);
         myPhotoDAO = db.photoDAO();

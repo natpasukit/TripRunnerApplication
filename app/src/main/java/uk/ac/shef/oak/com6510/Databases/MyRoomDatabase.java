@@ -8,13 +8,18 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+/**
+ * create the room database
+ */
 @Database(entities = {LocAndSensorData.class,PhotoEntity.class}, version = 4, exportSchema = false)
 public abstract class MyRoomDatabase extends RoomDatabase {
+    //get the two table's interface
     public abstract LocDAO myLocDao();
     public abstract PhotoDAO photoDAO();
     // marking the instance as volatile to ensure atomic access to the variable
     private static volatile MyRoomDatabase INSTANCE;
 
+    //get and init the database
     public static MyRoomDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
             synchronized (MyRoomDatabase.class) {
