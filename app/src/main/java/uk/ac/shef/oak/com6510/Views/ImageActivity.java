@@ -9,6 +9,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
@@ -82,6 +83,10 @@ public class ImageActivity extends AppCompatActivity implements OnMapReadyCallba
         ImageView photo = (ImageView) findViewById(R.id.detail_photo);
 
         tripName.setText("Name: " + myImageViewAdapter.getTripName());
+        for(LatLng loc : myImageViewAdapter.getPhotoPoints()){
+            googleMap.addMarker(new MarkerOptions().position(loc)).setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE));
+        }
+
         if (stopId != -1) {
             LocAndSensorData l = myImageViewAdapter.getInfoById(stopId);
             baro.setText("Barometer: " + l.getPreasureValue());
@@ -100,7 +105,7 @@ public class ImageActivity extends AppCompatActivity implements OnMapReadyCallba
                 });
             }
 
-            googleMap.addMarker(new MarkerOptions().position(new LatLng(l.getLatitude(), l.getLongitude())));
+            googleMap.addMarker(new MarkerOptions().position(new LatLng(l.getLatitude(), l.getLongitude()))).setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
         }
     }
 
