@@ -10,8 +10,8 @@ public class TimestampConverter {
     /**
      * Convert time stamp into date
      *
-     * @param timeStamp timeobject in long number
-     * @return Date dat object
+     * @param timeStamp timeObject in long number
+     * @return Date dat object of time stamp
      */
     public static Date timeStampToDate(long timeStamp) {
         Date date = new Date(timeStamp);
@@ -22,7 +22,7 @@ public class TimestampConverter {
      * Convert time stamp into date
      *
      * @param timeStamp timeobject in String number
-     * @return Date dat object
+     * @return Date dat object of time stamp
      */
     public static Date timeStampToDate(String timeStamp) {
         Date date = new Date(Long.parseLong(timeStamp));
