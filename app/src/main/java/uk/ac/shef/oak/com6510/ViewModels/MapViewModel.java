@@ -13,12 +13,19 @@ import java.util.ArrayList;
 import uk.ac.shef.oak.com6510.Databases.LocAndSensorData;
 import uk.ac.shef.oak.com6510.Databases.MapRepository;
 
+/**
+ * the live model for map to get updated on the latest location data
+ */
 public class MapViewModel extends AndroidViewModel {
     private final MapRepository mapRepository;
 
     public LiveData<LocAndSensorData> locAndSensorDataLiveData;
     public int stopId;
 
+    /**
+     * init the view model
+     * @param application
+     */
     public MapViewModel(Application application){
         super(application);
         mapRepository = new MapRepository(application);
@@ -33,6 +40,10 @@ public class MapViewModel extends AndroidViewModel {
 
     public LatLng getLatestLoc() { return mapRepository.getLatestLoc(); }
 
+    /**
+     * get the live data of location
+     * @return a livedata of LocAndSensorData
+     */
     public LiveData<LocAndSensorData> getLocAndSensorDataLiveData(){
         if (locAndSensorDataLiveData == null) {
             locAndSensorDataLiveData = new MutableLiveData<LocAndSensorData>();

@@ -15,12 +15,10 @@ import com.google.android.gms.maps.model.PolylineOptions;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.io.File;
 import java.util.ArrayList;
 
 import uk.ac.shef.oak.com6510.Databases.LocAndSensorData;
@@ -37,17 +35,23 @@ public class ImageActivity extends AppCompatActivity implements OnMapReadyCallba
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_photo_detail);
+
 
         Intent intent = getIntent();
         int tripId = intent.getIntExtra("tripId", -1);
+        stopId = intent.getIntExtra("tripStopId", -1);
+        imagePath = intent.getStringExtra("imagePath");
+
+        if(stopId == -1){
+            setContentView(R.layout.activity_path_detail);
+        }else{
+            setContentView(R.layout.activity_photo_detail);
+        }
+
         myImageViewAdapter = new ImageViewAdapter(getApplication(), this, tripId);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.mapFragment2);
         mapFragment.getMapAsync(this);
-
-        stopId = intent.getIntExtra("tripStopId", -1);
-        imagePath = intent.getStringExtra("imagePath");
     }
 
     @Override
@@ -66,10 +70,7 @@ public class ImageActivity extends AppCompatActivity implements OnMapReadyCallba
         ImageView photo = (ImageView) findViewById(R.id.detail_photo);
 
         tripName.setText("Name: " + myImageViewAdapter.getTripName());
-        if (stopId == -1) {
-            baro.setText("");
-            temp.setText("");
-        } else {
+        if (stopId != -1) {
             LocAndSensorData l = myImageViewAdapter.getInfoById(stopId);
             baro.setText("Barometer: " + l.getPreasureValue());
             temp.setText("Temperature: " + l.getTemperatureValue());

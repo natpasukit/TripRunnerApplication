@@ -60,6 +60,10 @@ public class ImageViewAdapter {
         }
     }
 
+    /**
+     * get all the location data for LocAndSensorData
+     * @return an ArrayList of LatLng of all the points
+     */
     public ArrayList<LatLng> getAllPointsLoc(){
         ArrayList<LatLng> p = new ArrayList<>();
         for(LocAndSensorData l : pointsInfo){
@@ -68,6 +72,11 @@ public class ImageViewAdapter {
         return p;
     }
 
+    /**
+     * use id to get a specific row of data
+     * @param id to identify the row
+     * @return a object of LocAndSensorData
+     */
     public LocAndSensorData getInfoById(int id){
         for(LocAndSensorData l : pointsInfo) {
             if(l.getId() == id){
