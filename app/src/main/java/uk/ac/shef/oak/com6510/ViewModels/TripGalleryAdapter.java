@@ -29,6 +29,7 @@ public class TripGalleryAdapter extends RecyclerView.Adapter<TripGalleryAdapter.
     private int rowIdColumn;
     private CursorAdapter cursorAdapter;
     private int tripIdDispatcher;
+    private LayoutInflater inflater;
 
     public TripGalleryAdapter(Application application, Context context) {
         this.application = application;
@@ -37,14 +38,13 @@ public class TripGalleryAdapter extends RecyclerView.Adapter<TripGalleryAdapter.
         this.mapRepository = new MapRepository(application);
         // Load trip data cursor
         this.tripCursorList = this.mapRepository.getAllTripName();
+        this.inflater = LayoutInflater.from(context);
         this.cursorAdapter = new CursorAdapter(context, this.tripCursorList, 0) {
             @Override
             public View newView(Context context, Cursor cursor, ViewGroup parent) {
-                LayoutInflater inflater = LayoutInflater.from(context);
                 // Inflate layout
                 View view = inflater.inflate(R.layout.trip_gallery_card, parent, false);
                 return view;
-
             }
 
             @Override
