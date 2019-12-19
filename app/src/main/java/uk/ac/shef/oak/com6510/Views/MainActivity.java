@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 import uk.ac.shef.oak.com6510.R;
 
@@ -37,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
                             public void run() {
                                 TextView textView = (TextView) findViewById(R.id.timeText);
                                 long date = System.currentTimeMillis();
-                                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy\nhh:mm:ss a");
+                                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy\nhh:mm:ss a", Locale.UK);
                                 String dateString = sdf.format(date);
                                 textView.setText(dateString);
                             }
@@ -80,7 +81,8 @@ public class MainActivity extends AppCompatActivity {
         buttonGirdView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(MainActivity.this, RowerActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -88,7 +90,8 @@ public class MainActivity extends AppCompatActivity {
         buttonTripView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(MainActivity.this, GalleryActivity.class);
+                startActivity(intent);
             }
         });
     }
