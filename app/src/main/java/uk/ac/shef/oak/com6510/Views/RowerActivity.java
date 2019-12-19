@@ -24,7 +24,7 @@ public class RowerActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager layoutManager;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
-
+    private int sortOrder = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +39,7 @@ public class RowerActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
 
         // Set adapter for recycler view
-        adapter = new TripGalleryAdapter(this.getApplication(), this);
+        adapter = new TripGalleryAdapter(this.getApplication(), this, sortOrder);
         recyclerView.setAdapter(adapter);
     }
 
@@ -93,10 +93,16 @@ public class RowerActivity extends AppCompatActivity {
                         System.out.println(which);
                         switch (which) {
                             case 0:
-
+                                if (sortOrder != 1) {
+                                    // sort
+                                    sortOrder = 1;
+                                }
                                 break;
                             case 1:
-
+                                if (sortOrder != -1) {
+                                    // sort
+                                    sortOrder = -1;
+                                }
                                 break;
                             case 2:
                                 Intent intent = new Intent(RowerActivity.this, GalleryActivity.class);
