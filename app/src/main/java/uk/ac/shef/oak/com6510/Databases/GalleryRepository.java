@@ -35,7 +35,7 @@ public class GalleryRepository extends ViewModel {
      *
      * @return a cursor to photot data return null when there is nothing in the database
      */
-    public Cursor getAllPhotoInOneTripformation(int order){
+    public Cursor getAllPhotoInformation(int order){
         try {
             Cursor mCursor = new GalleryRepository.getAllPhotoAsyncTask(myPhotoDAO).execute(order).get();
             if (mCursor != null) {
@@ -56,7 +56,7 @@ public class GalleryRepository extends ViewModel {
      *
      * @return a cursor to photo data return null when there is nothing in the database
      */
-    public Cursor getAllPictureInformation(int tripId){
+    public Cursor getAllPhotoInOneTripInformation(int tripId){
         try {
             Cursor mCursor = new GalleryRepository.getAllPictureInOneTripAsyncTask(myPhotoDAO).execute(tripId).get();
             if (mCursor != null) {
