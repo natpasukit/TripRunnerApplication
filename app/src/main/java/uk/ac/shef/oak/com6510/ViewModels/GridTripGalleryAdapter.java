@@ -20,33 +20,33 @@ import uk.ac.shef.oak.com6510.Views.GridGalleryTripActivity;
 import uk.ac.shef.oak.com6510.Views.ImageActivity;
 
 /**
- * GridGalleryAdapter
+ * GridTripGalleryAdapter
  * Adapter to add customization to RecyclerView of grid gallery with data from database using CursorAdapter
  * *Noted that there is no getView() to help on recyclerView because the base cursorAdapter already check the instance of recyclerView.
  */
-public class GridGalleryAdapter extends RecyclerView.Adapter<GridGalleryAdapter.ViewHolder> {
+public class GridTripGalleryAdapter extends RecyclerView.Adapter<GridTripGalleryAdapter.ViewHolder> {
     private Application application;
     private Context context;
     private GalleryRepository galleryRepository;
     private LayoutInflater inflater;
     private CursorAdapter cursorAdapter;
     private Cursor imageCursorList;
-    private int sortOrder;
+    private int tripId;
 
     /**
      * Create adapter add mutate view with recycler with layout manager
      *
      * @param application current application context
      * @param context     current context
-     * @param sortOrder   Integer of sorting option, using  1 for ascending else descending
+     * @param tripId      Integer of tripId, using  1 for ascending else descending
      */
-    public GridGalleryAdapter(final Application application, Context context, int sortOrder) {
+    public GridTripGalleryAdapter(final Application application, Context context, int tripId) {
         this.application = application;
         this.context = context;
         this.galleryRepository = new GalleryRepository(application);
-        this.sortOrder = sortOrder;
+        this.tripId = tripId;
         // Load all picture information
-        this.imageCursorList = this.galleryRepository.getAllPhotoInformation(sortOrder);
+        this.imageCursorList = this.galleryRepository.getAllPhotoInOneTripInformation(this.tripId);
         this.inflater = LayoutInflater.from(this.context);
         this.cursorAdapter = new CursorAdapter(context, this.imageCursorList, 0) {
 
@@ -121,7 +121,7 @@ public class GridGalleryAdapter extends RecyclerView.Adapter<GridGalleryAdapter.
      */
     @Override
     @NonNull
-    public GridGalleryAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public GridTripGalleryAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = this.cursorAdapter.newView(this.context, this.cursorAdapter.getCursor(), parent);
         return new ViewHolder(view);
     }

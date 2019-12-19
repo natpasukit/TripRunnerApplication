@@ -18,6 +18,7 @@ import uk.ac.shef.oak.com6510.Databases.MapRepository;
 import uk.ac.shef.oak.com6510.R;
 
 import uk.ac.shef.oak.com6510.Utils.TimestampConverter;
+import uk.ac.shef.oak.com6510.Views.GridGalleryTripActivity;
 import uk.ac.shef.oak.com6510.Views.ImageActivity;
 
 /**
@@ -91,7 +92,7 @@ public class TripGalleryAdapter extends RecyclerView.Adapter<TripGalleryAdapter.
                         new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Intent intent = new Intent(context, ImageActivity.class);
+                                Intent intent = new Intent(context, GridGalleryTripActivity.class);
                                 intent.putExtra("tripId", tripId);
                                 context.startActivity(intent);
                             }

@@ -41,7 +41,6 @@ public class ImageViewAdapter {
         this.galleryRepository = new GalleryRepository(application);
 
         this.pointsCursorList = this.mapRepository.getAllPointsInOneTrip(tripId);
-        this.pictureCursorList = this.galleryRepository.getAllPictureInformation()
         this.pointsInfo = new ArrayList<>();
 
         //loop the cursor to restore the table row
