@@ -106,6 +106,7 @@ public class ImageActivity extends AppCompatActivity implements OnMapReadyCallba
             }
 
             googleMap.addMarker(new MarkerOptions().position(new LatLng(l.getLatitude(), l.getLongitude()))).setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(l.getLatitude(), l.getLongitude()), 15.0f));
         }
     }
 
