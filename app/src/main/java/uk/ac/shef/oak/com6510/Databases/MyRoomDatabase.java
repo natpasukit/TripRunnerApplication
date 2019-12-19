@@ -11,7 +11,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 /**
  * create the room database
  */
-@Database(entities = {LocAndSensorData.class,PhotoEntity.class}, version = 4, exportSchema = false)
+@Database(entities = {LocAndSensorData.class,PhotoEntity.class}, version = 5, exportSchema = false)
 public abstract class MyRoomDatabase extends RoomDatabase {
     //get the two table's interface
     public abstract LocDAO myLocDao();

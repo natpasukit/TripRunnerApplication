@@ -144,7 +144,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         googleMap.getUiSettings().setZoomControlsEnabled(true);
 
         boolean started = map.startLocationIntentService();
-        if(!started)
+        if (!started)
             goBackToNewTrip("Need Location Permission.\nPlease add permission in settings.");
         else
             map.setStarted(true);
@@ -161,13 +161,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         chronometer.stop();
     }
 
-    public static Activity getActivity(){
+    public static Activity getActivity() {
         return getActivity();
     }
 
-    private void goBackToNewTrip(String mess){
+    private void goBackToNewTrip(String mess) {
         Intent intent = new Intent(MapActivity.this, MainActivity.class);
-        intent.putExtra("message",mess);
+        intent.putExtra("message", mess);
         startActivity(intent);
         finish();
     }
@@ -220,7 +220,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                         temperatureValue.setText("Temperature: " + temperature.getLatestValue());
                     if (barometer.getLatestValue() != -1000)
                         barometerValue.setText("Barometer: " + barometer.getLatestValue());
-                    if(locAndSensorData.getId() % 2 == 0)
+                    if (locAndSensorData.getId() % 2 == 0)
                         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(locAndSensorData.getLatitude(), locAndSensorData.getLongitude()), 16.0f));
                 }
 
@@ -306,7 +306,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 }
                 break;
             case REQUEST_UPLOAD_PHOTO:
-                Uri uploadPhotoUri = data.getData();
+                Uri uploadPhotoUri = null;
+                if (data != null && data.getData() != null) {
+                    uploadPhotoUri = data.getData();
+                }
                 if (resultCode == RESULT_OK && uploadPhotoUri != null && uploadPhotoUri.getPath() != null) {
                     // Get true path from uri
                     Cursor cursor = getContentResolver().query(data.getData(), null, null, null, null);
@@ -344,11 +347,20 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             default:
                 break;
         }
-        if (file != null && file.exists()) {
+        if (file != null && file.exists() ) {
+            final String intentPhotoPath = lastPhotoPath;
             photoViewModel.saveImageToDb(getApplication(), lastPhotoPath, mapViewModel.getLatestTripId(), mapViewModel.getStopId());
             Bitmap bitmapThumbnail = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(file.getAbsolutePath()), 90, 120);
             imageThumbnail.setImageBitmap(bitmapThumbnail);
             Marker m = googleMap.addMarker(new MarkerOptions().position(mapViewModel.getLatestLoc()));
+            imageThumbnail.setOnClickListener(new ImageView.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getApplicationContext(), FullImageActivity.class);
+                    intent.putExtra("imagePath", intentPhotoPath);
+                    startActivity(intent);
+                }
+            });
         }
     }
 
