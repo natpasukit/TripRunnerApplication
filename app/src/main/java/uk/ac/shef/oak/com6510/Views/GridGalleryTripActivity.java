@@ -40,8 +40,16 @@ public class GridGalleryTripActivity extends AppCompatActivity {
             // Set adapter for recycler view
             RecyclerView.Adapter adapter = new GridTripGalleryAdapter(getApplication(), this, this.tripId);
             recyclerView.setAdapter(adapter);
+            if (adapter.getItemCount() < 1) {
+                Intent skipGridTrip = new Intent(GridGalleryTripActivity.this, ImageActivity.class);
+                skipGridTrip.putExtra("tripId", this.tripId); 
+                startActivity(skipGridTrip);
+                finish();
+            }
+        } else {
+            Intent toMainIntent = new Intent(GridGalleryTripActivity.this, MainActivity.class);
+            startActivity(toMainIntent);
+            finish();
         }
-
-
     }
 }
