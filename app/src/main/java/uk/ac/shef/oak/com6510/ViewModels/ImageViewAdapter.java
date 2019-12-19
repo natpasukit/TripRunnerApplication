@@ -27,6 +27,7 @@ public class ImageViewAdapter {
     private ArrayList<LocAndSensorData> pointsInfo;
     private String tripName;
     private GalleryRepository galleryRepository;
+    private ArrayList<LatLng> photoPoints;
 
     /**
      * init the adpter take the trip id to process the specific trip
@@ -41,7 +42,9 @@ public class ImageViewAdapter {
         this.galleryRepository = new GalleryRepository(application);
 
         this.pointsCursorList = this.mapRepository.getAllPointsInOneTrip(tripId);
+        this.pictureCursorList = this.galleryRepository.getAllPhotoInOneTripInformation(tripId);
         this.pointsInfo = new ArrayList<>();
+        this.photoPoints = new ArrayList<>();
 
         //loop the cursor to restore the table row
         for (this.pointsCursorList.moveToFirst(); !this.pointsCursorList.isAfterLast(); this.pointsCursorList.moveToNext()) {
@@ -63,6 +66,16 @@ public class ImageViewAdapter {
             l.setId(currId);
             pointsInfo.add(l);
         }
+
+        for(this.pictureCursorList.moveToFirst(); !this.pictureCursorList.isAfterLast(); this.pictureCursorList.moveToNext()){
+            for(LocAndSensorData l : pointsInfo) {
+                int currStopId = this.pictureCursorList.getInt(this.pictureCursorList.getColumnIndex("tripStopId"));
+                if (currStopId == l.getId()) {
+                    photoPoints.add(new LatLng(l.getLatitude(),l.getLongitude()));
+                }
+            }
+        }
+
     }
 
     /**
@@ -94,5 +107,9 @@ public class ImageViewAdapter {
 
     public String getTripName() {
         return tripName;
+    }
+
+    public ArrayList<LatLng> getPhotoPoints() {
+        return photoPoints;
     }
 }
