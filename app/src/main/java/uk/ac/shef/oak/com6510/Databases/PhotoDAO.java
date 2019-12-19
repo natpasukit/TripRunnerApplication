@@ -62,4 +62,12 @@ public interface PhotoDAO {
      */
     @Query("SELECT * , photoId as _id FROM photo_information ORDER BY photoId DESC")
     Cursor retrieveAllPhotoInfoDESC();
+
+    /**
+     * retrieve all pictures in one trip
+     *
+     * @return a cusor for a list of table row
+     */
+    @Query("SELECT * FROM photo_information WHERE tripId = :tripId ORDER BY photoId ASC")
+    Cursor retrieveAllPictureInOneTrip(int tripId);
 }

@@ -51,6 +51,27 @@ public class GalleryRepository extends ViewModel {
     }
 
     /**
+     * This function create a Async Task to
+     * get all the photot data in one trip
+     *
+     * @return a cursor to photo data return null when there is nothing in the database
+     */
+    public Cursor getAllPictureInformation(int tripId){
+        try {
+            Cursor mCursor = new GalleryRepository.getAllPictureInOneTripAsyncTask(myPhotoDAO).execute(tripId).get();
+            if (mCursor != null) {
+                return mCursor;
+            }else
+                return null;
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
      * The internal class to do the AsyncTask
      */
     private static class getAllPhotoAsyncTask extends AsyncTask<Integer, Void, Cursor> {
@@ -72,6 +93,28 @@ public class GalleryRepository extends ViewModel {
                 return mAsyncTaskDao.retrieveAllPhotoInfoASC();
             else
                 return mAsyncTaskDao.retrieveAllPhotoInfoDESC();
+        }
+    }
+
+    /**
+     * The internal class to do the AsyncTask to retrieve all the picture in one trip
+     */
+    private static class getAllPictureInOneTripAsyncTask extends AsyncTask<Integer, Void, Cursor> {
+        private PhotoDAO mAsyncTaskDao;
+
+        getAllPictureInOneTripAsyncTask(PhotoDAO dao) {
+            mAsyncTaskDao = dao;
+        }
+
+        /**
+         * async task
+         * @param parm use to decide which trip to retrieve
+         * @return a cursor to photot data return null when there is nothing in the database
+         */
+        @Override
+        protected Cursor doInBackground(Integer... parm) {
+            Log.i("MyMapRepository", "Retieve All Photo in one trip");
+            return mAsyncTaskDao.retrieveAllPictureInOneTrip(parm[0]);
         }
     }
 }
