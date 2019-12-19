@@ -95,6 +95,7 @@ public class GridGalleryAdapter extends RecyclerView.Adapter<GridGalleryAdapter.
 
     /**
      * viewHolder to generate recyclerView model
+     * Provide a reference to the views for each data item in viewHolder
      */
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView photoDate;
@@ -108,7 +109,7 @@ public class GridGalleryAdapter extends RecyclerView.Adapter<GridGalleryAdapter.
     }
 
     /**
-     * Get cursor for each ViewHolder to access database
+     * Get cursor for each ViewHolder to access database to create new view
      *
      * @param parent   ViewGroup, parent View group of this view
      * @param viewType Integer, type of view
@@ -124,8 +125,8 @@ public class GridGalleryAdapter extends RecyclerView.Adapter<GridGalleryAdapter.
     /**
      * Replace the content of a view , this will be invoked by layout manager
      *
-     * @param holder
-     * @param position
+     * @param holder ViewHolder of this view
+     * @param position position for the data location in cursor
      */
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
@@ -136,7 +137,7 @@ public class GridGalleryAdapter extends RecyclerView.Adapter<GridGalleryAdapter.
     /**
      * Return the size of the data set, this will be invoked by layout manager
      *
-     * @return
+     * @return size of cursorAdapter
      */
     @Override
     public int getItemCount() {
