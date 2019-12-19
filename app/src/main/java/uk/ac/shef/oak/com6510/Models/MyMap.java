@@ -64,6 +64,10 @@ public class MyMap {
         this.latLngs = new ArrayList<LatLng>();
     }
 
+    /**
+     * ask for access to the location permission and
+     * start the a new location tracking intent service
+     */
     public boolean startLocationIntentService(){
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // Should we show an explanation?
@@ -93,6 +97,9 @@ public class MyMap {
         return true;
     }
 
+    /**
+     * start the location tracking intent service
+     */
     private void startAndInitLocIntentService(){
         Intent intent = new Intent(context, LocationIntent.class);
         mLocationPendingIntent = PendingIntent.getService(context, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -119,10 +126,17 @@ public class MyMap {
         }
     }
 
+    /**
+     * stop the location updates
+     */
     public void stopLocationUpdates() {
         mFusedLocationClient.removeLocationUpdates(mLocationPendingIntent);
     }
 
+    /**
+     * call at the activity onResume
+     * init and start the location intent service
+     */
     public void resume() {
         mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(10000);
@@ -133,31 +147,24 @@ public class MyMap {
         startLocationIntentService();
     }
 
-
-    LocationCallback mLocationCallback = new LocationCallback() {
-        @Override
-        public void onLocationResult(LocationResult locationResult) {
-            super.onLocationResult(locationResult);
-            mCurrentLocation = locationResult.getLastLocation();
-            mLastUpdateTime = System.currentTimeMillis();
-
-            if (started) {
-                latLngs.add(new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude()));
-                Log.i("MAP", tripNumber + ": new location " + mCurrentLocation.toString());
-                Log.i("BARMAP", "Barometer" + barometer.toString());
-                Log.i("TEMPMAP", "Temperature" + temperature.toString());
-                LocAndSensorData l = new LocAndSensorData(mLastUpdateTime, temperature.getLatestValue(), barometer.getLatestValue(), barometer.getLatestAccuracy(), mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude(), tripNumber, tripName);
-                mapViewModel.insertOneData(l);
-            }
-        }
-    };
-
+    /**
+     * let location intent service to insert a row into the table
+     * it will automatically get the other info needed
+     * @param lat latitude
+     * @param lon longitude
+     */
     public static void insertNewData(double lat, double lon){
         latLngs.add(new LatLng(lat, lon));
         LocAndSensorData l = new LocAndSensorData(System.currentTimeMillis(), temperature.getLatestValue(), barometer.getLatestValue(), barometer.getLatestAccuracy(), lat, lon, tripNumber, tripName);
         mapViewModel.insertOneData(l);
     }
 
+    /**
+     * get permission of location
+     * @param requestCode Integer request code
+     * @param permissions
+     * @param grantResults
+     */
     public void permissionsResult(int requestCode,
                                   String permissions[], int[] grantResults) {
         switch (requestCode) {

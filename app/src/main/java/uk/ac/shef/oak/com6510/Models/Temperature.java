@@ -32,6 +32,9 @@ public class Temperature {
         initTemperatureSensor();
     }
 
+    /**
+     * it inits the listener and establishes the actions to take when a reading is available
+     */
     public void initTemperatureSensor() {
         if (temperature == null) {
             Log.i("Temp", "Standard Temperature sensor unavailable");
@@ -62,10 +65,16 @@ public class Temperature {
         }
     }
 
+    /**
+     * @return String to tell people the latest temperature
+     */
     public String toString() {
         return "Current temperature is " + latestValue;
     }
 
+    /**
+     * it starts the temperature monitoring
+     */
     public void startTemperatureSensor() {
         if (temperature != null) {
             Log.d("Standard Temperature", "starting listener");
@@ -75,6 +84,9 @@ public class Temperature {
         }
     }
 
+    /**
+     * it stop the temperature monitoring
+     */
     public void stopTemperatureSensor() {
         if (temperature != null) {
             Log.d("Standard Temperature", "Stopping listener");
