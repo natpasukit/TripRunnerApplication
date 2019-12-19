@@ -15,6 +15,10 @@ import uk.ac.shef.oak.com6510.R;
 import uk.ac.shef.oak.com6510.ViewModels.GridGalleryAdapter;
 import uk.ac.shef.oak.com6510.ViewModels.GridTripGalleryAdapter;
 
+/**
+ * GridGalleryTripActivity use to manage gallery of each trip to show all of the picture in that trip in grid view.
+ * Will return to mainActivity in case of negative id
+ */
 public class GridGalleryTripActivity extends AppCompatActivity {
 
     private static final int GRID_COLUMN_NUMBER = 3;
@@ -29,7 +33,7 @@ public class GridGalleryTripActivity extends AppCompatActivity {
         setContentView(R.layout.activity_gallery);
         Intent intent = getIntent();
         this.tripId = intent.getIntExtra("tripId", -1);
-        if (this.tripId > 0) {
+        if (this.tripId >= 0) {
             // Recycle view creation
             recyclerView = (RecyclerView) findViewById(R.id.tripGalleryInformationRecycler);
 
@@ -42,7 +46,7 @@ public class GridGalleryTripActivity extends AppCompatActivity {
             recyclerView.setAdapter(adapter);
             if (adapter.getItemCount() < 1) {
                 Intent skipGridTrip = new Intent(GridGalleryTripActivity.this, ImageActivity.class);
-                skipGridTrip.putExtra("tripId", this.tripId); 
+                skipGridTrip.putExtra("tripId", this.tripId);
                 startActivity(skipGridTrip);
                 finish();
             }
