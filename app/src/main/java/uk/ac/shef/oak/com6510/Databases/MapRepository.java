@@ -1,6 +1,7 @@
 package uk.ac.shef.oak.com6510.Databases;
 
 import android.app.Application;
+import android.database.Cursor;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -10,6 +11,8 @@ import androidx.lifecycle.ViewModel;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class MapRepository extends ViewModel {
@@ -39,7 +42,7 @@ public class MapRepository extends ViewModel {
         return -1;
     }
 
-    public int getStopId(){
+    public int getStopId() {
         try {
             LocAndSensorData locAndSensorData = new getLatestLocAsyncTask(myLocDao).execute().get();
             if (locAndSensorData != null)
@@ -54,20 +57,37 @@ public class MapRepository extends ViewModel {
         return 0;
     }
 
-    public LatLng getLatestLoc(){
+
+    public LatLng getLatestLoc() {
         try {
             LocAndSensorData locAndSensorData = new getLatestLocAsyncTask(myLocDao).execute().get();
             if (locAndSensorData != null)
-                return new LatLng(locAndSensorData.getLatitude(),locAndSensorData.getLongitude());
+                return new LatLng(locAndSensorData.getLatitude(), locAndSensorData.getLongitude());
             else
-                return new LatLng(0,0);
+                return new LatLng(0, 0);
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        return new LatLng(0,0);
+        return new LatLng(0, 0);
     }
+
+    public Cursor getAllTripName(){
+        try {
+            Cursor mCursor = new getAllTripNameAsyncTask(myLocDao).execute().get();
+            if (mCursor != null) {
+                return mCursor;
+            }else
+                return null;
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
     public LiveData<LocAndSensorData> getLatestData() {
         return myLocDao.retrieveOneData();
@@ -98,7 +118,7 @@ public class MapRepository extends ViewModel {
 
         @Override
         protected LocAndSensorData doInBackground(Void... URL) {
-            Log.i("MyMapRepository", "Retieve");
+            Log.i("MyMapRepository", "Retieve latest trip");
             return mAsyncTaskDao.retrieveLatestLocData();
         }
     }
@@ -112,8 +132,22 @@ public class MapRepository extends ViewModel {
 
         @Override
         protected LocAndSensorData doInBackground(Void... URL) {
-            Log.i("MyMapRepository", "Retieve");
+            Log.i("MyMapRepository", "Retieve latest location");
             return mAsyncTaskDao.retrieveLatestLocData();
+        }
+    }
+
+    private static class getAllTripNameAsyncTask extends AsyncTask<Void, Void, Cursor> {
+        private LocDAO mAsyncTaskDao;
+
+        getAllTripNameAsyncTask(LocDAO dao) {
+            mAsyncTaskDao = dao;
+        }
+
+        @Override
+        protected Cursor doInBackground(Void... URL) {
+            Log.i("MyMapRepository", "Retieve All trip name");
+            return mAsyncTaskDao.retrieveAllTrip();
         }
     }
 }

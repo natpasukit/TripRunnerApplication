@@ -5,6 +5,8 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 
+import java.util.List;
+
 @Dao
 public interface PhotoDAO {
     @Insert
@@ -16,7 +18,7 @@ public interface PhotoDAO {
     @Delete
     void delete(PhotoEntity photoEntity);
 
-//    @Query("SELECT * FROM photo_information WHERE tripStopId = :markerId")
+    //    @Query("SELECT * FROM photo_information WHERE tripStopId = :markerId")
 //    public PhotoEntity selectPhotoWithMarkerId(int markerId);
 //
 //    @Query("SELECT * FROM photo_information WHERE tripId = :tripId")

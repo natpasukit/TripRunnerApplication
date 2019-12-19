@@ -58,6 +58,8 @@ public class MainActivity extends AppCompatActivity {
         final EditText tripNameInput = (EditText) findViewById(R.id.tripName);
         final TextView errorMessage = (TextView) findViewById(R.id.errorText);
 
+        errorMessage.setText(getIntent().getStringExtra("message"));
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

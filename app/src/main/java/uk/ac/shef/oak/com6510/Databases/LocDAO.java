@@ -1,10 +1,15 @@
 package uk.ac.shef.oak.com6510.Databases;
 
+import android.database.Cursor;
+
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Dao
 public interface LocDAO {
@@ -35,4 +40,7 @@ public interface LocDAO {
 
     @Query("SELECT COUNT(*) FROM loc_and_sensor_data")
     int howManyElements();
+
+    @Query("SELECT * FROM loc_and_sensor_data GROUP BY tripId ORDER BY id DESC")
+    Cursor retrieveAllTrip();
 }

@@ -1,5 +1,7 @@
-package uk.ac.shef.oak.com6510.Views;
+package uk.ac.shef.oak.com6510.ViewModels;
 
+import android.app.Activity;
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -10,11 +12,28 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import uk.ac.shef.oak.com6510.Databases.GalleryRepository;
+import uk.ac.shef.oak.com6510.Databases.MapRepository;
 import uk.ac.shef.oak.com6510.R;
 
 public class TripGalleryAdapter extends RecyclerView.Adapter<TripGalleryAdapter.ViewHolder> {
-    private String[] tripNameList;
+    private Application application;
     private Context context;
+    private String[] tripNameList;
+<<<<<<< HEAD:app/src/main/java/uk/ac/shef/oak/com6510/Views/TripGalleryAdapter.java
+    private Context context;
+=======
+    private GalleryRepository galleryRepository;
+    private MapRepository mapRepository;
+
+    public TripGalleryAdapter(Application application, Context context) {
+        this.application = application;
+        this.context = context;
+        this.galleryRepository = new GalleryRepository(application);
+        this.mapRepository = new MapRepository(application);
+    }
+
+>>>>>>> 905f427aaf310302adf1f2dfad1f7f945201bc86:app/src/main/java/uk/ac/shef/oak/com6510/ViewModels/TripGalleryAdapter.java
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
@@ -25,14 +44,9 @@ public class TripGalleryAdapter extends RecyclerView.Adapter<TripGalleryAdapter.
 
         public ViewHolder(View view) {
             super(view);
-
             this.tripGalleryName = (TextView) view.findViewById(R.id.tripGalleryName);
             this.tripGalleryButton = (Button) view.findViewById(R.id.tripGalleryButton);
         }
-    }
-
-    public TripGalleryAdapter(String[] tripNameList) {
-        this.tripNameList = tripNameList;
     }
 
     // Create new view by layout manager

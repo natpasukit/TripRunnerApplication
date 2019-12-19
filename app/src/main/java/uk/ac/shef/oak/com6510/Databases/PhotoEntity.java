@@ -1,6 +1,7 @@
 package uk.ac.shef.oak.com6510.Databases;
 
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
 /**
