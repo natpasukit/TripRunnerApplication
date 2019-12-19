@@ -7,18 +7,22 @@ import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import uk.ac.shef.oak.com6510.Databases.GalleryRepository;
-import uk.ac.shef.oak.com6510.Databases.MapRepository;
 import uk.ac.shef.oak.com6510.R;
 import uk.ac.shef.oak.com6510.Views.ImageActivity;
 
+/**
+ * GridGalleryAdapter
+ * Adapter to add customization to RecyclerView of grid gallery with data from database using CursorAdapter
+ * *Noted that there is no getView() to help on recyclerView because the base cursorAdapter already check the instance of recyclerView.
+ */
 public class GridGalleryAdapter extends RecyclerView.Adapter<GridGalleryAdapter.ViewHolder> {
     private Application application;
     private Context context;
@@ -27,6 +31,12 @@ public class GridGalleryAdapter extends RecyclerView.Adapter<GridGalleryAdapter.
     private CursorAdapter cursorAdapter;
     private Cursor imageCursorList;
 
+    /**
+     * Create adapter add mutate view with recycler with layout manager
+     *
+     * @param application current application context
+     * @param context     current context
+     */
     public GridGalleryAdapter(final Application application, Context context) {
         this.application = application;
         this.context = context;
@@ -35,6 +45,14 @@ public class GridGalleryAdapter extends RecyclerView.Adapter<GridGalleryAdapter.
         this.imageCursorList = this.galleryRepository.getAllPhotoInformation();
         this.inflater = LayoutInflater.from(this.context);
         this.cursorAdapter = new CursorAdapter(context, this.imageCursorList, 0) {
+
+            /**
+             * newView will be call every time the recycler try to create view and initiate view.
+             * @param context context of activity
+             * @param cursor cursor of database from galleryRepository of this position.
+             * @param parent parent viewGroup of this view
+             * @return recycle view that already inflate
+             */
             @Override
             public View newView(Context context, Cursor cursor, ViewGroup parent) {
                 // Inflate layout
@@ -42,6 +60,12 @@ public class GridGalleryAdapter extends RecyclerView.Adapter<GridGalleryAdapter.
                 return view;
             }
 
+            /**
+             * bindView will bind action and set variable of each view, this also bind intent onClick to each view.
+             * @param view view to bind to.
+             * @param context context of this activity.
+             * @param cursor current cursor position of database.
+             */
             @Override
             public void bindView(View view, final Context context, Cursor cursor) {
                 // Get data from cursor
@@ -69,6 +93,9 @@ public class GridGalleryAdapter extends RecyclerView.Adapter<GridGalleryAdapter.
         };
     }
 
+    /**
+     * viewHolder to generate recyclerView model
+     */
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView photoDate;
         public ImageView photoImage;
@@ -80,20 +107,37 @@ public class GridGalleryAdapter extends RecyclerView.Adapter<GridGalleryAdapter.
         }
     }
 
+    /**
+     * Get cursor for each ViewHolder to access database
+     *
+     * @param parent   ViewGroup, parent View group of this view
+     * @param viewType Integer, type of view
+     * @return view for view holder
+     */
     @Override
-    public GridGalleryAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    @NonNull
+    public GridGalleryAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = this.cursorAdapter.newView(this.context, this.cursorAdapter.getCursor(), parent);
         return new ViewHolder(view);
     }
 
-    // Replace the contents of a view (invoked by the layout manager)
+    /**
+     * Replace the content of a view , this will be invoked by layout manager
+     *
+     * @param holder
+     * @param position
+     */
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         this.cursorAdapter.getCursor().moveToPosition(position);
         this.cursorAdapter.bindView(holder.itemView, this.context, this.cursorAdapter.getCursor());
     }
 
-    // Return the size of your data set (invoked by the layout manager)
+    /**
+     * Return the size of the data set, this will be invoked by layout manager
+     *
+     * @return
+     */
     @Override
     public int getItemCount() {
         return cursorAdapter.getCount();
