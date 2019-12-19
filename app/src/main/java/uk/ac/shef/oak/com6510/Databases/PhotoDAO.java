@@ -1,5 +1,7 @@
 package uk.ac.shef.oak.com6510.Databases;
 
+import android.database.Cursor;
+
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -26,4 +28,7 @@ public interface PhotoDAO {
 //
     @Query("SELECT * FROM photo_information ORDER BY photoId DESC LIMIT 1")
     public PhotoEntity getLatestPhotoInfo();
+
+    @Query("SELECT * FROM photo_information")
+    Cursor retrieveAllPhotoInfo();
 }

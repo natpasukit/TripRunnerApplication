@@ -88,6 +88,21 @@ public class MapRepository extends ViewModel {
         return null;
     }
 
+    public Cursor getAllPointsInOneTrip(int tripId){
+        try {
+            Cursor mCursor = new getAllPointsInOneTripAsyncTask(myLocDao).execute(tripId).get();
+            if (mCursor != null) {
+                return mCursor;
+            }else
+                return null;
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
     public LiveData<LocAndSensorData> getLatestData() {
         return myLocDao.retrieveOneData();
@@ -148,6 +163,20 @@ public class MapRepository extends ViewModel {
         protected Cursor doInBackground(Void... URL) {
             Log.i("MyMapRepository", "Retieve All trip name");
             return mAsyncTaskDao.retrieveAllTrip();
+        }
+    }
+
+    private static class getAllPointsInOneTripAsyncTask extends AsyncTask<Integer, Void, Cursor> {
+        private LocDAO mAsyncTaskDao;
+
+        getAllPointsInOneTripAsyncTask(LocDAO dao) {
+            mAsyncTaskDao = dao;
+        }
+
+        @Override
+        protected Cursor doInBackground(Integer... tripId) {
+            Log.i("MyMapRepository", "Retieve All points in one trip");
+            return mAsyncTaskDao.retrieveAllPointsInOneTrip(tripId[0]);
         }
     }
 }

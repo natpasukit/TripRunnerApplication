@@ -40,4 +40,7 @@ public interface LocDAO {
 
     @Query("SELECT tripId as _id, tripName, max(timeStamp) as tripEnd  FROM loc_and_sensor_data GROUP BY tripId ORDER BY id DESC")
     Cursor retrieveAllTrip();
+
+    @Query("SELECT * FROM loc_and_sensor_data WHERE tripId = :tripId")
+    Cursor retrieveAllPointsInOneTrip(int tripId);
 }
