@@ -76,14 +76,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        final FloatingActionButton floatingActionButton = (FloatingActionButton) findViewById(R.id.accessPhotoGallery);
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // To test to show latest image
-                 Intent intent = new Intent(MainActivity.this, GalleryActivity.class);
-                 startActivity(intent);
-            }
-        });
+//        final FloatingActionButton floatingActionButton = (FloatingActionButton) findViewById(R.id.accessPhotoGallery);
+//        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // To test to show latest image
+//                 Intent intent = new Intent(MainActivity.this, GalleryActivity.class);
+//                 startActivity(intent);
+//            }
+//        });
     }
 }
