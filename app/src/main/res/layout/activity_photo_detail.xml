@@ -1,27 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:map="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".Views.ImageActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
         <ImageView
             android:id="@+id/detail_photo"
             android:layout_width="match_parent"
-            android:layout_height="230dp"
+            android:layout_height="0dp"
+            android:layout_weight="20"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="15dp" />
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
+            android:layout_height="wrap_content">
+
             <TextView
                 android:id="@+id/tripName"
                 android:layout_width="wrap_content"
@@ -51,20 +53,17 @@
 
         </LinearLayout>
 
-
-
         <fragment
             android:id="@+id/mapFragment2"
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
-            android:layout_height="430dp"
+            android:layout_height="0dp"
             android:layout_below="@+id/chronometer"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            android:layout_weight="20"
-
-            tools:context=".MapsActivity" />
+            android:layout_weight="50"
+            tools:context=".ImageActivity" />
 
     </LinearLayout>
 
-</ScrollView>
+</RelativeLayout>
