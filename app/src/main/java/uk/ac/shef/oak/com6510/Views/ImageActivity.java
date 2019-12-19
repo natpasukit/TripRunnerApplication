@@ -1,5 +1,6 @@
 package uk.ac.shef.oak.com6510.Views;
 
+import android.app.Application;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -37,6 +38,7 @@ public class ImageActivity extends AppCompatActivity implements OnMapReadyCallba
     private GoogleMap googleMap;
     private ImageViewAdapter myImageViewAdapter;
     private int stopId;
+    private String imagePath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +53,8 @@ public class ImageActivity extends AppCompatActivity implements OnMapReadyCallba
         mapFragment.getMapAsync(this);
 
         stopId = intent.getIntExtra("tripStopId",-1);
-
+        imagePath = intent.getStringExtra("imagePath");
+        Log.e("wgse",imagePath);
     }
 
     @Override
@@ -67,6 +70,7 @@ public class ImageActivity extends AppCompatActivity implements OnMapReadyCallba
         TextView tripName = (TextView) findViewById(R.id.tripName);
         TextView baro = (TextView) findViewById(R.id.barometerValue1);
         TextView temp = (TextView) findViewById(R.id.temperatureValue1);
+        ImageView photo = (ImageView) findViewById(R.id.detail_photo);
 
         tripName.setText("Name: "+myImageViewAdapter.getTripName());
         if(stopId == -1) {
@@ -76,6 +80,7 @@ public class ImageActivity extends AppCompatActivity implements OnMapReadyCallba
             LocAndSensorData l = myImageViewAdapter.getInfoById(stopId);
             baro.setText("Barometer: "+l.getPreasureValue());
             temp.setText("Tempterature: "+l.getTemperatureValue());
+            PhotoViewModel.getDecodedScaleImage(getApplication(),photo,imagePath);
             googleMap.addMarker(new MarkerOptions().position(new LatLng(l.getLatitude(),l.getLongitude())));
         }
     }

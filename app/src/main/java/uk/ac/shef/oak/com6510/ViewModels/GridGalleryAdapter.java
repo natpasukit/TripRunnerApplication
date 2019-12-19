@@ -45,7 +45,7 @@ public class GridGalleryAdapter extends RecyclerView.Adapter<GridGalleryAdapter.
             @Override
             public void bindView(View view, final Context context, Cursor cursor) {
                 // Get data from cursor
-                String imagePath = cursor.getString(cursor.getColumnIndex("photoFileDirectory"));
+                final String imagePath = cursor.getString(cursor.getColumnIndex("photoFileDirectory"));
                 String imageDate = cursor.getString(cursor.getColumnIndex("photoDate"));
                 final int photoStopDispatcher = cursor.getInt(cursor.getColumnIndex("tripStopId"));
                 final int photoTripIdDispatcher = cursor.getInt(cursor.getColumnIndex("tripId"));
@@ -59,6 +59,7 @@ public class GridGalleryAdapter extends RecyclerView.Adapter<GridGalleryAdapter.
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(context, ImageActivity.class);
+                        intent.putExtra("imagePath", imagePath);
                         intent.putExtra("tripStopId", photoStopDispatcher);
                         intent.putExtra("tripId", photoTripIdDispatcher);
                         context.startActivity(intent);
