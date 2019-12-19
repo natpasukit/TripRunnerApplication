@@ -1,6 +1,5 @@
 package uk.ac.shef.oak.com6510.ViewModels;
 
-import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
@@ -17,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import uk.ac.shef.oak.com6510.Databases.GalleryRepository;
 import uk.ac.shef.oak.com6510.Databases.MapRepository;
 import uk.ac.shef.oak.com6510.R;
-import uk.ac.shef.oak.com6510.Views.ShowImageActivity;
 
 public class TripGalleryAdapter extends RecyclerView.Adapter<TripGalleryAdapter.ViewHolder> {
     private Application application;
