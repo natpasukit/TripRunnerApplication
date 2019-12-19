@@ -31,23 +31,25 @@ public class TripGalleryAdapter extends RecyclerView.Adapter<TripGalleryAdapter.
     private GalleryRepository galleryRepository;
     private MapRepository mapRepository;
     private Cursor tripCursorList;
-    private int rowIdColumn;
     private CursorAdapter cursorAdapter;
     private LayoutInflater inflater;
+    private int sortOrder;
 
     /**
      * Create adapter add mutate view with recycler with layout manager
      *
      * @param application current application context
      * @param context     current context
+     * @param sortOrder   Integer of sorting option, using  1 for ascending else descending
      */
-    public TripGalleryAdapter(Application application, Context context) {
+    public TripGalleryAdapter(Application application, Context context, int sortOrder) {
         this.application = application;
         this.context = context;
         this.galleryRepository = new GalleryRepository(application);
         this.mapRepository = new MapRepository(application);
+        this.sortOrder = sortOrder;
         // Load trip data cursor
-        this.tripCursorList = this.mapRepository.getAllTripName();
+        this.tripCursorList = this.mapRepository.getAllTripName(sortOrder);
         this.inflater = LayoutInflater.from(context);
         this.cursorAdapter = new CursorAdapter(context, this.tripCursorList, 0) {
 

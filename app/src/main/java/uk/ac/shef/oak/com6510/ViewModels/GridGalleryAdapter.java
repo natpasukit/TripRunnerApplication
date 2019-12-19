@@ -30,19 +30,22 @@ public class GridGalleryAdapter extends RecyclerView.Adapter<GridGalleryAdapter.
     private LayoutInflater inflater;
     private CursorAdapter cursorAdapter;
     private Cursor imageCursorList;
+    private int sortOrder;
 
     /**
      * Create adapter add mutate view with recycler with layout manager
      *
      * @param application current application context
      * @param context     current context
+     * @param sortOrder   Integer of sorting option, using  1 for ascending else descending
      */
-    public GridGalleryAdapter(final Application application, Context context) {
+    public GridGalleryAdapter(final Application application, Context context, int sortOrder) {
         this.application = application;
         this.context = context;
         this.galleryRepository = new GalleryRepository(application);
+        this.sortOrder = sortOrder;
         // Load all picture information
-        this.imageCursorList = this.galleryRepository.getAllPhotoInformation();
+        this.imageCursorList = this.galleryRepository.getAllPhotoInformation(sortOrder);
         this.inflater = LayoutInflater.from(this.context);
         this.cursorAdapter = new CursorAdapter(context, this.imageCursorList, 0) {
 
