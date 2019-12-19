@@ -184,7 +184,7 @@ public class MapRepository extends ViewModel {
         /**
          * async task
          * @param URL no use
-         * @return a ob
+         * @return a object of LocAndSensorData
          */
         @Override
         protected LocAndSensorData doInBackground(Void... URL) {
@@ -193,6 +193,9 @@ public class MapRepository extends ViewModel {
         }
     }
 
+    /**
+     * the internal class for Async task to get the latest location
+     */
     private static class getLatestLocAsyncTask extends AsyncTask<Void, Void, LocAndSensorData> {
         private LocDAO mAsyncTaskDao;
 
@@ -200,6 +203,11 @@ public class MapRepository extends ViewModel {
             mAsyncTaskDao = dao;
         }
 
+        /**
+         * async task
+         * @param URL
+         * @return a object of LocAndSensorData
+         */
         @Override
         protected LocAndSensorData doInBackground(Void... URL) {
             Log.i("MyMapRepository", "Retieve latest location");
@@ -207,6 +215,9 @@ public class MapRepository extends ViewModel {
         }
     }
 
+    /**
+     * the internal class for Async task to get all the rows grouped by the tripId
+     */
     private static class getAllTripNameAsyncTask extends AsyncTask<Void, Void, Cursor> {
         private LocDAO mAsyncTaskDao;
 
@@ -214,6 +225,11 @@ public class MapRepository extends ViewModel {
             mAsyncTaskDao = dao;
         }
 
+        /**
+         * async task
+         * @param URL
+         * @return A Cursor of a list of table rows
+         */
         @Override
         protected Cursor doInBackground(Void... URL) {
             Log.i("MyMapRepository", "Retieve All trip name");
@@ -221,6 +237,9 @@ public class MapRepository extends ViewModel {
         }
     }
 
+    /**
+     * the internal class for Async task to get all the location points with the same tripId
+     */
     private static class getAllPointsInOneTripAsyncTask extends AsyncTask<Integer, Void, Cursor> {
         private LocDAO mAsyncTaskDao;
 
@@ -228,6 +247,11 @@ public class MapRepository extends ViewModel {
             mAsyncTaskDao = dao;
         }
 
+        /**
+         * async task
+         * @param tripId
+         * @return A Cursor of a list of table rows
+         */
         @Override
         protected Cursor doInBackground(Integer... tripId) {
             Log.i("MyMapRepository", "Retieve All points in one trip");
