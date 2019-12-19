@@ -2,7 +2,7 @@ package uk.ac.shef.oak.com6510.Views;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
@@ -11,14 +11,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import uk.ac.shef.oak.com6510.R;
-import uk.ac.shef.oak.com6510.ViewModels.TripGalleryAdapter;
+import uk.ac.shef.oak.com6510.ViewModels.GridGalleryAdapter;
 
-public class GalleryActivity extends AppCompatActivity {
 
+public class RowerActivity extends AppCompatActivity {
     private static final int GRID_COLUMN_NUMBER = 3;
     private RecyclerView.LayoutManager layoutManager;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,20 +30,12 @@ public class GalleryActivity extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.tripGalleryInformationRecycler);
 
         // Linear layout manager
-        layoutManager = new LinearLayoutManager(this);
+        layoutManager = new GridLayoutManager(this.getApplication(), GRID_COLUMN_NUMBER);
         recyclerView.setLayoutManager(layoutManager);
 
         // Set adapter for recycler view
-        adapter = new TripGalleryAdapter(this.getApplication(), this);
+        RecyclerView.Adapter adapter = new GridGalleryAdapter(getApplication(), this);
         recyclerView.setAdapter(adapter);
-
-        ////                                 Linear layout manager
-//                                layoutManager = new GridLayoutManager(getApplicationContext(), GRID_COLUMN_NUMBER);
-//                                recyclerView.setLayoutManager(layoutManager);
-//
-//                                // Set adapter for recycler view
-//                                RecyclerView.Adapter adapter = new GridGalleryAdapter(GalleryActivity.this, this);
-//                                recyclerView.setAdapter(adapter);
     }
 
     @Override
