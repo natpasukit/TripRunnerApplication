@@ -26,6 +26,7 @@ public class PhotoViewModel {
     private Context context;
     private File image;
     private Application application = null;
+
     public PhotoViewModel(Context context) {
         this.context = context;
     }
@@ -76,6 +77,7 @@ public class PhotoViewModel {
     /**
      * Get the latest image bitmap photo from path in database then rescale it into imageView size
      * Return original bitmap , return null if context application was not set
+     *
      * @param imageView
      * @return Bitmap
      */
@@ -109,5 +111,33 @@ public class PhotoViewModel {
 
     public String getCurrentPhotoPath() {
         return currentPhotoPath;
+    }
+
+    public static Bitmap getDecodedScaleImage(Application application, ImageView imageView, String imagePath) {
+        if (application != null) {
+            // Get imageView size
+            int targetW = imageView.getWidth();
+            int targetH = imageView.getHeight();
+            // Set dimension of bitmap
+            BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+            if (targetH != 0 && targetW != 0) {
+                // In-case imageView is wrapper
+                bmOptions.inJustDecodeBounds = true;
+                int photoW = bmOptions.outWidth;
+                int photoH = bmOptions.outHeight;
+
+                // Set image scale factor
+                int scaleFactor = Math.min(photoW / targetW, photoH / targetH);
+
+                // Set decoder options
+                bmOptions.inJustDecodeBounds = false;
+                bmOptions.inSampleSize = scaleFactor;
+                bmOptions.inPurgeable = true;
+            }
+            Bitmap bitmap = BitmapFactory.decodeFile(imagePath, bmOptions);
+            return bitmap;
+        } else {
+            return null;
+        }
     }
 }
