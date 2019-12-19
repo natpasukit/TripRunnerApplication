@@ -106,9 +106,9 @@ public class MapRepository extends ViewModel {
      * @return Cursor for a list of table row
      * @throws Exception on error
      */
-    public Cursor getAllTripName() {
+    public Cursor getAllTripName(int order) {
         try {
-            Cursor mCursor = new getAllTripNameAsyncTask(myLocDao).execute().get();
+            Cursor mCursor = new getAllTripNameAsyncTask(myLocDao).execute(order).get();
             if (mCursor != null) {
                 return mCursor;
             } else
@@ -228,7 +228,7 @@ public class MapRepository extends ViewModel {
     /**
      * the internal class for Async task to get all the rows grouped by the tripId
      */
-    private static class getAllTripNameAsyncTask extends AsyncTask<Void, Void, Cursor> {
+    private static class getAllTripNameAsyncTask extends AsyncTask<Integer, Void, Cursor> {
         private LocDAO mAsyncTaskDao;
 
         getAllTripNameAsyncTask(LocDAO dao) {
@@ -237,14 +237,16 @@ public class MapRepository extends ViewModel {
 
         /**
          * async task
-         *
-         * @param URL
+         * @param parm use to decide the order, 1 is for ascending ,-1 is for descending
          * @return A Cursor of a list of table rows
          */
         @Override
-        protected Cursor doInBackground(Void... URL) {
+        protected Cursor doInBackground(Integer... parm) {
             Log.i("MyMapRepository", "Retieve All trip name");
-            return mAsyncTaskDao.retrieveAllTrip();
+            if(parm[0] == 1)
+                return mAsyncTaskDao.retrieveAllTripASC();
+            else
+                return mAsyncTaskDao.retrieveAllTripDESC();
         }
     }
 

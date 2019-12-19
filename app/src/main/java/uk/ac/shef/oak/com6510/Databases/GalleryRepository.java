@@ -31,13 +31,13 @@ public class GalleryRepository extends ViewModel {
 
     /**
      * This function create a Async Task to
-     * get all the photot data
+     * get all the photot data with order
      *
      * @return a cursor to photot data return null when there is nothing in the database
      */
-    public Cursor getAllPhotoInformation(){
+    public Cursor getAllPhotoInformation(int order){
         try {
-            Cursor mCursor = new GalleryRepository.getAllPhotoAsyncTask(myPhotoDAO).execute().get();
+            Cursor mCursor = new GalleryRepository.getAllPhotoAsyncTask(myPhotoDAO).execute(order).get();
             if (mCursor != null) {
                 return mCursor;
             }else
@@ -53,17 +53,25 @@ public class GalleryRepository extends ViewModel {
     /**
      * The internal class to do the AsyncTask
      */
-    private static class getAllPhotoAsyncTask extends AsyncTask<Void, Void, Cursor> {
+    private static class getAllPhotoAsyncTask extends AsyncTask<Integer, Void, Cursor> {
         private PhotoDAO mAsyncTaskDao;
 
         getAllPhotoAsyncTask(PhotoDAO dao) {
             mAsyncTaskDao = dao;
         }
 
+        /**
+         * async task
+         * @param parm use to decide the order, 1 is for ascending ,-1 is for descending
+         * @return a cursor to photot data return null when there is nothing in the database
+         */
         @Override
-        protected Cursor doInBackground(Void... URL) {
+        protected Cursor doInBackground(Integer... parm) {
             Log.i("MyMapRepository", "Retieve All Photo");
-            return mAsyncTaskDao.retrieveAllPhotoInfo();
+            if(parm[0] == 1)
+                return mAsyncTaskDao.retrieveAllPhotoInfoASC();
+            else
+                return mAsyncTaskDao.retrieveAllPhotoInfoDESC();
         }
     }
 }

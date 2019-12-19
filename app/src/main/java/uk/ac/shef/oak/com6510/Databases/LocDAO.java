@@ -57,12 +57,20 @@ public interface LocDAO {
     LiveData<LocAndSensorData> retrieveAllData();
 
     /**
-     * retieve the all rows with different trip names
+     * retieve the all rows with different trip names in DESC
      *
      * @return a cusor for a list of table row
      */
     @Query("SELECT tripId as _id, tripName, max(timeStamp) as tripEnd  FROM loc_and_sensor_data GROUP BY tripId ORDER BY id DESC")
-    Cursor retrieveAllTrip();
+    Cursor retrieveAllTripDESC();
+
+    /**
+     * retieve the all rows with different trip names in ASC
+     *
+     * @return a cusor for a list of table row
+     */
+    @Query("SELECT tripId as _id, tripName, max(timeStamp) as tripEnd  FROM loc_and_sensor_data GROUP BY tripId ORDER BY id ASC")
+    Cursor retrieveAllTripASC();
 
     /**
      * retrieve all points in one trip

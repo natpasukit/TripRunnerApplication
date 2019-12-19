@@ -48,10 +48,18 @@ public interface PhotoDAO {
     PhotoEntity getLatestPhotoInfo();
 
     /**
-     * get all the data in the table
+     * get all the data in the table in ascending order
      *
      * @return a Cursor of table rows of all data
      */
-    @Query("SELECT * , photoId as _id FROM photo_information")
-    Cursor retrieveAllPhotoInfo();
+    @Query("SELECT * , photoId as _id FROM photo_information ORDER BY photoId ASC")
+    Cursor retrieveAllPhotoInfoASC();
+
+    /**
+     * get all the data in the table in descending order
+     *
+     * @return a Cursor of table rows of all data
+     */
+    @Query("SELECT * , photoId as _id FROM photo_information ORDER BY photoId DESC")
+    Cursor retrieveAllPhotoInfoDESC();
 }
