@@ -9,8 +9,10 @@ import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 
+import uk.ac.shef.oak.com6510.Databases.GalleryRepository;
 import uk.ac.shef.oak.com6510.Databases.LocAndSensorData;
 import uk.ac.shef.oak.com6510.Databases.MapRepository;
+import uk.ac.shef.oak.com6510.Views.GalleryActivity;
 
 /**
  * a class helps imageActivity to process data
@@ -21,8 +23,10 @@ public class ImageViewAdapter {
     private Context context;
     private MapRepository mapRepository;
     private Cursor pointsCursorList;
+    private Cursor pictureCursorList;
     private ArrayList<LocAndSensorData> pointsInfo;
     private String tripName;
+    private GalleryRepository galleryRepository;
 
     /**
      * init the adpter take the trip id to process the specific trip
@@ -34,8 +38,10 @@ public class ImageViewAdapter {
         this.application = application;
         this.context = context;
         this.mapRepository = new MapRepository(application);
+        this.galleryRepository = new GalleryRepository(application);
 
         this.pointsCursorList = this.mapRepository.getAllPointsInOneTrip(tripId);
+        this.pictureCursorList = this.galleryRepository.getAllPictureInformation()
         this.pointsInfo = new ArrayList<>();
 
         //loop the cursor to restore the table row
