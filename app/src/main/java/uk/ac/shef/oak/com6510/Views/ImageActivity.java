@@ -51,7 +51,7 @@ public class ImageActivity extends AppCompatActivity implements OnMapReadyCallba
         mapFragment.getMapAsync(this);
 
         stopId = intent.getIntExtra("tripStopId",-1);
-        
+
     }
 
     @Override
