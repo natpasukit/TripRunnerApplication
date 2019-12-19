@@ -29,6 +29,7 @@ public class MapRepository extends ViewModel {
 
     /**
      * use Asynctask to insert one row into the table
+     *
      * @param locAndSensorData a new row in the table
      */
     public void insertOneData(@NonNull LocAndSensorData locAndSensorData) {
@@ -37,6 +38,7 @@ public class MapRepository extends ViewModel {
 
     /**
      * get lastest id of trip from loc database in descending order
+     *
      * @return Integer trip id, return -1 if no data
      * @throws Exception on error
      */
@@ -58,6 +60,7 @@ public class MapRepository extends ViewModel {
 
     /**
      * get the latest the id of the table row
+     *
      * @return Integer id, return 0 if there is no data
      * @throws Exception on error
      */
@@ -78,6 +81,7 @@ public class MapRepository extends ViewModel {
 
     /**
      * get the latest location
+     *
      * @return LatLng the latest location in the database
      * @throws Exception on error
      */
@@ -98,15 +102,16 @@ public class MapRepository extends ViewModel {
 
     /**
      * get all the rows grouped by the trip id
+     *
      * @return Cursor for a list of table row
      * @throws Exception on error
      */
-    public Cursor getAllTripName(){
+    public Cursor getAllTripName() {
         try {
             Cursor mCursor = new getAllTripNameAsyncTask(myLocDao).execute().get();
             if (mCursor != null) {
                 return mCursor;
-            }else
+            } else
                 return null;
         } catch (ExecutionException e) {
             e.printStackTrace();
@@ -118,16 +123,17 @@ public class MapRepository extends ViewModel {
 
     /**
      * get all the rows with the tripId
+     *
      * @param tripId the flag to identify a trip
      * @return a Cursor for a list of desired row
      * @throws Exception on error
      */
-    public Cursor getAllPointsInOneTrip(int tripId){
+    public Cursor getAllPointsInOneTrip(int tripId) {
         try {
             Cursor mCursor = new getAllPointsInOneTripAsyncTask(myLocDao).execute(tripId).get();
             if (mCursor != null) {
                 return mCursor;
-            }else
+            } else
                 return null;
         } catch (ExecutionException e) {
             e.printStackTrace();
@@ -140,6 +146,7 @@ public class MapRepository extends ViewModel {
 
     /**
      * get the latest location data in the table
+     *
      * @return a Cursor for latest row
      * @throws Exception on error
      */
@@ -160,6 +167,7 @@ public class MapRepository extends ViewModel {
 
         /**
          * async task
+         *
          * @param params a list of table that need to insert into the data
          * @return null
          */
@@ -183,6 +191,7 @@ public class MapRepository extends ViewModel {
 
         /**
          * async task
+         *
          * @param URL no use
          * @return a object of LocAndSensorData
          */
@@ -205,6 +214,7 @@ public class MapRepository extends ViewModel {
 
         /**
          * async task
+         *
          * @param URL
          * @return a object of LocAndSensorData
          */
@@ -227,6 +237,7 @@ public class MapRepository extends ViewModel {
 
         /**
          * async task
+         *
          * @param URL
          * @return A Cursor of a list of table rows
          */
@@ -249,6 +260,7 @@ public class MapRepository extends ViewModel {
 
         /**
          * async task
+         *
          * @param tripId
          * @return A Cursor of a list of table rows
          */

@@ -18,6 +18,7 @@ public class PhotoRepository extends ViewModel {
 
     /**
      * init the repository
+     *
      * @param application get the current application
      */
     public PhotoRepository(Application application) {
@@ -27,6 +28,7 @@ public class PhotoRepository extends ViewModel {
 
     /**
      * insert a new row into the photo table
+     *
      * @param photoEntity a new line of photo data
      */
     public void insertOnePhotoData(@NonNull PhotoEntity photoEntity) {
@@ -35,6 +37,7 @@ public class PhotoRepository extends ViewModel {
 
     /**
      * get the latest photo info
+     *
      * @return an object of PhotoEntity
      * @throws Exception on error
      */
@@ -62,6 +65,7 @@ public class PhotoRepository extends ViewModel {
 
         /**
          * async task
+         *
          * @param params a object of photoEntity
          * @return null
          */
@@ -85,6 +89,7 @@ public class PhotoRepository extends ViewModel {
 
         /**
          * async task
+         *
          * @param voids
          * @return a object of PhotoEntity
          */

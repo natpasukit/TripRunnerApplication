@@ -347,7 +347,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             default:
                 break;
         }
-        if (file != null && file.exists() ) {
+        if (file != null && file.exists()) {
             final String intentPhotoPath = lastPhotoPath;
             photoViewModel.saveImageToDb(getApplication(), lastPhotoPath, mapViewModel.getLatestTripId(), mapViewModel.getStopId());
             Bitmap bitmapThumbnail = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(file.getAbsolutePath()), 90, 120);

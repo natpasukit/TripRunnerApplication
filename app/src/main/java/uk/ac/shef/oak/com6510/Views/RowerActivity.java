@@ -2,16 +2,17 @@ package uk.ac.shef.oak.com6510.Views;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import uk.ac.shef.oak.com6510.R;
-import uk.ac.shef.oak.com6510.ViewModels.GridGalleryAdapter;
+import uk.ac.shef.oak.com6510.ViewModels.TripGalleryAdapter;
 
 
 public class RowerActivity extends AppCompatActivity {
@@ -30,11 +31,11 @@ public class RowerActivity extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.tripGalleryInformationRecycler);
 
         // Linear layout manager
-        layoutManager = new GridLayoutManager(this.getApplication(), GRID_COLUMN_NUMBER);
+        layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
         // Set adapter for recycler view
-        RecyclerView.Adapter adapter = new GridGalleryAdapter(getApplication(), this);
+        adapter = new TripGalleryAdapter(this.getApplication(), this);
         recyclerView.setAdapter(adapter);
     }
 
@@ -63,7 +64,7 @@ public class RowerActivity extends AppCompatActivity {
 
     private void sortOptionsDialog() {
 
-        String options[] = {"By Ascend Date order", "By Descend Date order", "By Trip route"};
+        String options[] = {"By Ascend Date order", "By Descend Date order", "By Grid image"};
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Show By:")
@@ -73,15 +74,15 @@ public class RowerActivity extends AppCompatActivity {
                         System.out.println(which);
                         switch (which) {
                             case 0:
+
                                 break;
                             case 1:
 
                                 break;
                             case 2:
-
-                                break;
-                            case 3:
-
+                                Intent intent = new Intent(RowerActivity.this, GalleryActivity.class);
+                                startActivity(intent);
+                                finish();
                                 break;
                             default:
                                 break;

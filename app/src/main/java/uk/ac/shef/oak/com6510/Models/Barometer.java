@@ -42,7 +42,7 @@ public class Barometer {
     }
 
     /**
-     * it inits the listener and establishes the actions to take when a reading is available
+     * This init the listener and establishes the actions to take when a reading is available
      */
     private void initBarometerListener() {
         if (!standardPressureSensorAvailable()) {
@@ -84,7 +84,7 @@ public class Barometer {
     /**
      * it returns true if the sensor is available
      *
-     * @return
+     * @return String show text pressure.
      */
     public boolean standardPressureSensorAvailable() {
         return (mBarometerSensor != null);
@@ -97,7 +97,7 @@ public class Barometer {
     /**
      * it starts the pressure monitoring
      *
-     * @param accelerometer
+     * @param accelerometer Accelerometer object
      */
     public void startSensingPressure(Accelerometer accelerometer) {
         this.accelerometer = accelerometer;
@@ -117,7 +117,7 @@ public class Barometer {
 
 
     /**
-     * this stops the barometer
+     * This stops the barometer emit.
      */
     public void stopBarometer() {
         if (standardPressureSensorAvailable()) {
@@ -136,9 +136,8 @@ public class Barometer {
     /**
      * returns true if the barometer is currently working
      *
-     * @return
+     * @return Boolean true or false
      */
-
     public boolean isStarted() {
         return started;
     }

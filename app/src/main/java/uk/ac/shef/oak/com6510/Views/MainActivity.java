@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
         buttonGirdView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, RowerActivity.class);
+                Intent intent = new Intent(MainActivity.this, GalleryActivity.class);
                 startActivity(intent);
             }
         });
@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
         buttonTripView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, GalleryActivity.class);
+                Intent intent = new Intent(MainActivity.this, RowerActivity.class);
                 startActivity(intent);
             }
         });

@@ -32,13 +32,17 @@ public class MapViewModel extends AndroidViewModel {
         locAndSensorDataLiveData = mapRepository.getLatestData();
     }
 
-    public int getLatestTripId(){
-        return  mapRepository.getLatestTripId();
+    public int getLatestTripId() {
+        return mapRepository.getLatestTripId();
     }
 
-    public int getStopId() { return mapRepository.getStopId(); }
+    public int getStopId() {
+        return mapRepository.getStopId();
+    }
 
-    public LatLng getLatestLoc() { return mapRepository.getLatestLoc(); }
+    public LatLng getLatestLoc() {
+        return mapRepository.getLatestLoc();
+    }
 
     /**
      * get the live data of location
@@ -51,5 +55,7 @@ public class MapViewModel extends AndroidViewModel {
         return locAndSensorDataLiveData;
     }
 
-    public void insertOneData(LocAndSensorData l) {mapRepository.insertOneData(l);}
+    public void insertOneData(LocAndSensorData l) {
+        mapRepository.insertOneData(l);
+    }
 }

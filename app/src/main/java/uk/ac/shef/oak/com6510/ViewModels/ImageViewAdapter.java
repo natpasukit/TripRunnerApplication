@@ -54,7 +54,7 @@ public class ImageViewAdapter {
 
             tripName = currTripName;
 
-            LocAndSensorData l = new LocAndSensorData(currTimeStamp,currTemperature,currPressureValue,currPressureAccurancy,currLat,currLon,currTripId,currTripName);
+            LocAndSensorData l = new LocAndSensorData(currTimeStamp, currTemperature, currPressureValue, currPressureAccurancy, currLat, currLon, currTripId, currTripName);
             l.setId(currId);
             pointsInfo.add(l);
         }
@@ -66,8 +66,8 @@ public class ImageViewAdapter {
      */
     public ArrayList<LatLng> getAllPointsLoc(){
         ArrayList<LatLng> p = new ArrayList<>();
-        for(LocAndSensorData l : pointsInfo){
-            p.add(new LatLng(l.getLatitude(),l.getLongitude()));
+        for (LocAndSensorData l : pointsInfo) {
+            p.add(new LatLng(l.getLatitude(), l.getLongitude()));
         }
         return p;
     }
@@ -77,9 +77,9 @@ public class ImageViewAdapter {
      * @param id to identify the row
      * @return a object of LocAndSensorData
      */
-    public LocAndSensorData getInfoById(int id){
-        for(LocAndSensorData l : pointsInfo) {
-            if(l.getId() == id){
+    public LocAndSensorData getInfoById(int id) {
+        for (LocAndSensorData l : pointsInfo) {
+            if (l.getId() == id) {
                 return l;
             }
 
