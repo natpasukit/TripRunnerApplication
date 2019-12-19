@@ -80,6 +80,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     static final Integer READ_STORAGE_PERMISSION_REQUEST_CODE = 0x3;
     private PhotoViewModel photoViewModel;
 
+    /**
+     * the things needs to be done when the activity is created
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -121,12 +125,21 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         });
     }
 
+    /**
+     * call the map's resume funciton to start some service
+     */
     @Override
     protected void onResume() {
         super.onResume();
         map.resume();
     }
 
+    /**
+     * request a permission for accessing the location
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
     @SuppressLint("MissingPermission")
     @Override
     public void onRequestPermissionsResult(int requestCode,
@@ -135,6 +148,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     /**
+     * when map ready check the permission and init the map class
      * @param googleMap Check google map ui setting , then set google map settings attributes
      */
     @Override
@@ -148,9 +162,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             goBackToNewTrip("Need Location Permission.\nPlease add permission in settings.");
         else
             map.setStarted(true);
-
     }
 
+    /**
+     * destory all the service and listener when quit
+     */
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -165,6 +181,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         return getActivity();
     }
 
+    /**
+     * if deny the location permission
+     * will go back to the main activity with a message
+     * @param mess a message wants to pass to the main activity
+     */
     private void goBackToNewTrip(String mess) {
         Intent intent = new Intent(MapActivity.this, MainActivity.class);
         intent.putExtra("message", mess);
@@ -172,6 +193,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         finish();
     }
 
+    /**
+     * get and set view retrieve by id
+     */
     private void initView() {
         chronometer = findViewById(R.id.chronometer);
         chronometer.setFormat("Time: %s");
@@ -187,6 +211,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         imageThumbnail = findViewById(R.id.imageThumbnail);
     }
 
+    /**
+     * init two sensors
+     */
     private void initSensor() {
         barometer = new Barometer(this);
         currentLocMarker = null;
@@ -194,6 +221,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         temperature = new Temperature(this);
     }
 
+    /**
+     * init the map viewModel
+     * add marker to current location
+     * add a polyline on map to show the route
+     * when the livedata change
+     */
     private void initMapViewModel() {
         mapViewModel = ViewModelProviders.of(this).get(MapViewModel.class);
         mapViewModel.getLocAndSensorDataLiveData().observe(this, new Observer<LocAndSensorData>() {
@@ -228,10 +261,16 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         });
     }
 
+    /**
+     * init the photo viewModel
+     */
     private void initPhotoViewModel() {
         photoViewModel = new PhotoViewModel(this);
     }
 
+    /**
+     * init the map object and google map
+     */
     private void initMap() {
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -240,6 +279,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         map = new MyMap(this, tripName, barometer, temperature, mapViewModel);
     }
 
+    /**
+     * start all the sensor
+     */
     private void startAll() {
         chronometer.setBase(SystemClock.elapsedRealtime());
         chronometer.start();
