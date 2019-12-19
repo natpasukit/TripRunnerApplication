@@ -17,7 +17,7 @@ public class GalleryRepository extends ViewModel {
         myPhotoDAO = db.photoDAO();
     }
 
-    public Cursor getAllTripName(){
+    public Cursor getAllPhotoInformation(){
         try {
             Cursor mCursor = new GalleryRepository.getAllPhotoAsyncTask(myPhotoDAO).execute().get();
             if (mCursor != null) {

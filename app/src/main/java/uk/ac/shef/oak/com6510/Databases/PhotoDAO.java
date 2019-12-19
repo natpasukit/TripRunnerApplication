@@ -29,6 +29,6 @@ public interface PhotoDAO {
     @Query("SELECT * FROM photo_information ORDER BY photoId DESC LIMIT 1")
     public PhotoEntity getLatestPhotoInfo();
 
-    @Query("SELECT * FROM photo_information")
+    @Query("SELECT * , photoId as _id FROM photo_information")
     Cursor retrieveAllPhotoInfo();
 }
