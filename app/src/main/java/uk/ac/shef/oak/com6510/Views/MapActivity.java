@@ -324,6 +324,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
      * Require a permission to ACTION_PICK
      */
     private void dispatchUploadPictureIntent() {
+        if (!checkPermissionForReadExternalStorage(MapActivity.this)) {
+            requestPermissionForReadExternalStorage(MapActivity.this);
+        }
         Intent uploadPictureIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         // Only allow local file
         uploadPictureIntent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
@@ -362,9 +365,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     if (cursor != null) {
                         cursor.moveToFirst();
                         int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
-                        if (!checkPermissionForReadExternalStorage(MapActivity.this)) {
-                            requestPermissionForReadExternalStorage(MapActivity.this);
-                        }
                         // Upload file to application storage
                         File photoFile = null;
 
