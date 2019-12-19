@@ -15,7 +15,9 @@
         <ImageView
             android:id="@+id/detail_photo"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_height="0dp"
+            android:layout_weight="30"
             android:layout_marginTop="15dp" />
 
         <TextView
@@ -24,12 +26,14 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="Trip Name"
+            android:layout_weight="1"
             android:textSize="18sp"
             android:padding="2dp"/>
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
+            android:layout_weight="1"
             android:layout_height="wrap_content">
 
             <TextView
@@ -62,7 +66,7 @@
             android:layout_below="@+id/chronometer"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            android:layout_weight="50"
+            android:layout_weight="70"
             tools:context=".ImageActivity" />
 
     </LinearLayout>

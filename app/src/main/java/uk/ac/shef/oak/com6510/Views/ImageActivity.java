@@ -45,7 +45,6 @@ public class ImageActivity extends AppCompatActivity implements OnMapReadyCallba
 
         stopId = intent.getIntExtra("tripStopId", -1);
         imagePath = intent.getStringExtra("imagePath");
-        Log.e("wgse", imagePath);
     }
 
     @Override
