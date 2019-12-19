@@ -76,14 +76,20 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-//        final FloatingActionButton floatingActionButton = (FloatingActionButton) findViewById(R.id.accessPhotoGallery);
-//        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // To test to show latest image
-//                 Intent intent = new Intent(MainActivity.this, GalleryActivity.class);
-//                 startActivity(intent);
-//            }
-//        });
+        Button buttonGirdView = (Button) findViewById(R.id.startGridView);
+        buttonGirdView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        Button buttonTripView = (Button) findViewById(R.id.startTripView);
+        buttonTripView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 }
