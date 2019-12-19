@@ -21,7 +21,7 @@ public class LocationIntent extends IntentService {
 
     /**
      * run when there is a new data
-     * @param intent
+     * @param intent Intent of loc
      */
     @Override
     protected void onHandleIntent(Intent intent){

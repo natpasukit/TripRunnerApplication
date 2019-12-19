@@ -1,9 +1,10 @@
 package uk.ac.shef.oak.com6510.Models;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.TimeZone;
+        import java.text.DateFormat;
+        import java.text.SimpleDateFormat;
+        import java.util.Date;
+        import java.util.Locale;
+        import java.util.TimeZone;
 
 public class Utilities {
 
@@ -15,7 +16,7 @@ public class Utilities {
      */
     public static String mSecsToString(long actualTimeInMseconds) {
         Date date = new Date(actualTimeInMseconds);
-        DateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+        DateFormat formatter = new SimpleDateFormat("HH:mm:ss", Locale.UK);
         formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
         return (formatter.format(date));
     }

@@ -10,7 +10,8 @@ import java.util.List;
  */
 
 public class LocAndSensorDataAndPhotoRelation {
-    @Embedded public LocAndSensorData locAndSensorData;
+    @Embedded
+    public LocAndSensorData locAndSensorData;
     @Relation(
             parentColumn = "id",
             entityColumn = "tripStopId",

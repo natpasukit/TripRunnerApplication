@@ -26,6 +26,7 @@ public interface LocDAO {
 
     /**
      * it selects the latest element
+     *
      * @return a live data of a table row
      */
     @Query("SELECT * FROM loc_and_sensor_data ORDER BY id DESC LIMIT 1")
@@ -33,6 +34,7 @@ public interface LocDAO {
 
     /**
      * it selects the latest element
+     *
      * @return a table row
      */
     @Query("SELECT * FROM loc_and_sensor_data ORDER BY id DESC LIMIT 1")
@@ -40,6 +42,7 @@ public interface LocDAO {
 
     /**
      * retrieve the latest info by trip id
+     *
      * @return a table row
      */
     @Query("SELECT * FROM loc_and_sensor_data ORDER BY tripId DESC LIMIT 1")
@@ -47,6 +50,7 @@ public interface LocDAO {
 
     /**
      * get all data sort by id
+     *
      * @return a livedata of table row
      */
     @Query("SELECT * FROM loc_and_sensor_data ORDER BY id DESC")
@@ -54,6 +58,7 @@ public interface LocDAO {
 
     /**
      * retieve the all rows with different trip names
+     *
      * @return a cusor for a list of table row
      */
     @Query("SELECT tripId as _id, tripName, max(timeStamp) as tripEnd  FROM loc_and_sensor_data GROUP BY tripId ORDER BY id DESC")
@@ -61,6 +66,7 @@ public interface LocDAO {
 
     /**
      * retrieve all points in one trip
+     *
      * @return a cusor for a list of table row
      */
     @Query("SELECT * FROM loc_and_sensor_data WHERE tripId = :tripId ORDER BY id ASC")

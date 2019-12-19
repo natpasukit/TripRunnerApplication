@@ -43,23 +43,23 @@ public class ImageViewAdapter {
 
             tripName = currTripName;
 
-            LocAndSensorData l = new LocAndSensorData(currTimeStamp,currTemperature,currPressureValue,currPressureAccurancy,currLat,currLon,currTripId,currTripName);
+            LocAndSensorData l = new LocAndSensorData(currTimeStamp, currTemperature, currPressureValue, currPressureAccurancy, currLat, currLon, currTripId, currTripName);
             l.setId(currId);
             pointsInfo.add(l);
         }
     }
 
-    public ArrayList<LatLng> getAllPointsLoc(){
+    public ArrayList<LatLng> getAllPointsLoc() {
         ArrayList<LatLng> p = new ArrayList<>();
-        for(LocAndSensorData l : pointsInfo){
-            p.add(new LatLng(l.getLatitude(),l.getLongitude()));
+        for (LocAndSensorData l : pointsInfo) {
+            p.add(new LatLng(l.getLatitude(), l.getLongitude()));
         }
         return p;
     }
 
-    public LocAndSensorData getInfoById(int id){
-        for(LocAndSensorData l : pointsInfo) {
-            if(l.getId() == id){
+    public LocAndSensorData getInfoById(int id) {
+        for (LocAndSensorData l : pointsInfo) {
+            if (l.getId() == id) {
                 return l;
             }
 

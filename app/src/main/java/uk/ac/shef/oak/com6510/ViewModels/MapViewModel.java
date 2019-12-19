@@ -19,26 +19,32 @@ public class MapViewModel extends AndroidViewModel {
     public LiveData<LocAndSensorData> locAndSensorDataLiveData;
     public int stopId;
 
-    public MapViewModel(Application application){
+    public MapViewModel(Application application) {
         super(application);
         mapRepository = new MapRepository(application);
         locAndSensorDataLiveData = mapRepository.getLatestData();
     }
 
-    public int getLatestTripId(){
-        return  mapRepository.getLatestTripId();
+    public int getLatestTripId() {
+        return mapRepository.getLatestTripId();
     }
 
-    public int getStopId() { return mapRepository.getStopId(); }
+    public int getStopId() {
+        return mapRepository.getStopId();
+    }
 
-    public LatLng getLatestLoc() { return mapRepository.getLatestLoc(); }
+    public LatLng getLatestLoc() {
+        return mapRepository.getLatestLoc();
+    }
 
-    public LiveData<LocAndSensorData> getLocAndSensorDataLiveData(){
+    public LiveData<LocAndSensorData> getLocAndSensorDataLiveData() {
         if (locAndSensorDataLiveData == null) {
             locAndSensorDataLiveData = new MutableLiveData<LocAndSensorData>();
         }
         return locAndSensorDataLiveData;
     }
 
-    public void insertOneData(LocAndSensorData l) {mapRepository.insertOneData(l);}
+    public void insertOneData(LocAndSensorData l) {
+        mapRepository.insertOneData(l);
+    }
 }

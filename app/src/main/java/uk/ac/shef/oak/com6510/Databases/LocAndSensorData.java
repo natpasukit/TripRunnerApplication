@@ -6,16 +6,16 @@ import androidx.room.PrimaryKey;
 
 /**
  * Define a table to store the location and sensor data
- *
+ * <p>
  * id is the primary key
- *
+ * <p>
  * pressureValue and pressureValueAccurancy to store the barometer data
  * temperatureValue to store the temperature data
- *
+ * <p>
  * latitude and longitude to store the location info
- *
+ * <p>
  * tripId and tripName to store the trip info
- *
+ * <p>
  * timestamp to store the time of create the data
  */
 
@@ -35,7 +35,7 @@ public class LocAndSensorData {
     private String tripName;
     private long timeStamp;
 
-    public LocAndSensorData(long timeStamp,float temperatureValue, float preasureValue, int preasureVauleAccurancy, double latitude, double longitude, int tripId, String tripName) {
+    public LocAndSensorData(long timeStamp, float temperatureValue, float preasureValue, int preasureVauleAccurancy, double latitude, double longitude, int tripId, String tripName) {
         this.preasureValue = preasureValue;
         this.preasureVauleAccurancy = preasureVauleAccurancy;
         this.latitude = latitude;
@@ -78,7 +78,9 @@ public class LocAndSensorData {
         return tripName;
     }
 
-    public long getTimeStamp() { return timeStamp; }
+    public long getTimeStamp() {
+        return timeStamp;
+    }
 
     public void setTripId(int tripId) {
         this.tripId = tripId;
@@ -96,15 +98,21 @@ public class LocAndSensorData {
         this.preasureValue = preasure_value;
     }
 
-    public void setPreasureVauleAccurancy(int preasureVauleAccurancy) { this.preasureVauleAccurancy = preasureVauleAccurancy; }
+    public void setPreasureVauleAccurancy(int preasureVauleAccurancy) {
+        this.preasureVauleAccurancy = preasureVauleAccurancy;
+    }
 
     public void setTripName(String tripName) {
         this.tripName = tripName;
     }
 
-    public void setTemperatureValue(float temperatureValue) { this.temperatureValue = temperatureValue; }
+    public void setTemperatureValue(float temperatureValue) {
+        this.temperatureValue = temperatureValue;
+    }
 
-    public void setTimeStamp(long timeStamp) { this.timeStamp = timeStamp; }
+    public void setTimeStamp(long timeStamp) {
+        this.timeStamp = timeStamp;
+    }
 
     public void setId(int id) {
         this.id = id;

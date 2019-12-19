@@ -125,7 +125,7 @@ public class GridGalleryAdapter extends RecyclerView.Adapter<GridGalleryAdapter.
     /**
      * Replace the content of a view , this will be invoked by layout manager
      *
-     * @param holder ViewHolder of this view
+     * @param holder   ViewHolder of this view
      * @param position position for the data location in cursor
      */
     @Override

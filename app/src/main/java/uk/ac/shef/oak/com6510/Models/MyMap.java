@@ -68,7 +68,7 @@ public class MyMap {
      * ask for access to the location permission and
      * start the a new location tracking intent service
      */
-    public boolean startLocationIntentService(){
+    public boolean startLocationIntentService() {
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // Should we show an explanation?
             if (ActivityCompat.shouldShowRequestPermissionRationale((Activity) context,
@@ -100,19 +100,19 @@ public class MyMap {
     /**
      * start the location tracking intent service
      */
-    private void startAndInitLocIntentService(){
+    private void startAndInitLocIntentService() {
         Intent intent = new Intent(context, LocationIntent.class);
         mLocationPendingIntent = PendingIntent.getService(context, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        Task<Void> locationTask = mFusedLocationClient.requestLocationUpdates(mLocationRequest,mLocationPendingIntent);
-        if(locationTask != null){
+        Task<Void> locationTask = mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationPendingIntent);
+        if (locationTask != null) {
             locationTask.addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    if (e instanceof ApiException){
+                    if (e instanceof ApiException) {
                         Log.w("Error", ((ApiException) e).getStatusMessage());
-                    }else{
-                        Log.w("Error",e.getMessage());
+                    } else {
+                        Log.w("Error", e.getMessage());
                     }
                 }
             });
@@ -120,7 +120,7 @@ public class MyMap {
             locationTask.addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
-                    Log.d("Service","start location intent service successfully");
+                    Log.d("Service", "start location intent service successfully");
                 }
             });
         }
@@ -150,10 +150,11 @@ public class MyMap {
     /**
      * let location intent service to insert a row into the table
      * it will automatically get the other info needed
+     *
      * @param lat latitude
      * @param lon longitude
      */
-    public static void insertNewData(double lat, double lon){
+    public static void insertNewData(double lat, double lon) {
         latLngs.add(new LatLng(lat, lon));
         LocAndSensorData l = new LocAndSensorData(System.currentTimeMillis(), temperature.getLatestValue(), barometer.getLatestValue(), barometer.getLatestAccuracy(), lat, lon, tripNumber, tripName);
         mapViewModel.insertOneData(l);
@@ -161,7 +162,8 @@ public class MyMap {
 
     /**
      * get permission of location
-     * @param requestCode Integer request code
+     *
+     * @param requestCode  Integer request code
      * @param permissions
      * @param grantResults
      */
@@ -180,7 +182,7 @@ public class MyMap {
 
                     // permission denied, boo! Disable the
                     // functionality that depends on this permission.
-                    Log.e("Permission","deny");
+                    Log.e("Permission", "deny");
                 }
                 return;
             }
