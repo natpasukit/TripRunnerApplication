@@ -75,14 +75,14 @@ public class GalleryActivity extends AppCompatActivity {
                         switch (which) {
                             case 0:
                                 if (sortOrder != 1) {
-                                    // sort
-                                    sortOrder = 1;
+                                    setSortOrder(1);
+                                    setNewAdapter();
                                 }
                                 break;
                             case 1:
                                 if (sortOrder != -1) {
-                                    // sort
-                                    sortOrder = -1;
+                                    setSortOrder(-1);
+                                    setNewAdapter();
                                 }
                                 break;
                             case 2:
@@ -96,5 +96,22 @@ public class GalleryActivity extends AppCompatActivity {
                         }
                     }
                 }).create().show();
+    }
+
+    /**
+     * Set new adapter data to current sortingOrder
+     */
+    public void setNewAdapter() {
+        this.adapter = new GridGalleryAdapter(this.getApplication(), this, sortOrder);
+        recyclerView.setAdapter(adapter);
+    }
+
+    /**
+     * Set sortOrder to target integer
+     *
+     * @param sortOrder Integer , use 1 for ascending else descending
+     */
+    public void setSortOrder(int sortOrder) {
+        this.sortOrder = sortOrder;
     }
 }
