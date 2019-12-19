@@ -1,31 +1,31 @@
 package uk.ac.shef.oak.com6510.Utils;
 
-
-import androidx.room.TypeConverter;
-
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 
 /**
- * Converter to convert string into time zone format
+ * Utils function to help in convert date time format for timestamp object
  */
 public class TimestampConverter {
-    static DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.UK);
 
-    @TypeConverter
-    public static Date fromTimestamp(String value) {
-        if (value != null) {
-            try {
-                return df.parse(value);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            return null;
-        } else {
-            return null;
-        }
+    /**
+     * Convert time stamp into date
+     *
+     * @param timeStamp timeobject in long number
+     * @return Date dat object
+     */
+    public static Date timeStampToDate(long timeStamp) {
+        Date date = new Date(timeStamp);
+        return date;
+    }
+
+    /**
+     * Convert time stamp into date
+     *
+     * @param timeStamp timeobject in String number
+     * @return Date dat object
+     */
+    public static Date timeStampToDate(String timeStamp) {
+        Date date = new Date(Long.parseLong(timeStamp));
+        return date;
     }
 }

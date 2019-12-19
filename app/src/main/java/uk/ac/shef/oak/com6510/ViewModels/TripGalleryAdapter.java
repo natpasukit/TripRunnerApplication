@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import uk.ac.shef.oak.com6510.Databases.GalleryRepository;
 import uk.ac.shef.oak.com6510.Databases.MapRepository;
 import uk.ac.shef.oak.com6510.R;
+import uk.ac.shef.oak.com6510.Utils.TimestampConverter;
 import uk.ac.shef.oak.com6510.Views.ShowImageActivity;
 
 public class TripGalleryAdapter extends RecyclerView.Adapter<TripGalleryAdapter.ViewHolder> {
@@ -48,12 +49,19 @@ public class TripGalleryAdapter extends RecyclerView.Adapter<TripGalleryAdapter.
 
             @Override
             public void bindView(View view, final Context context, Cursor cursor) {
+                // Get data from cursor
                 int tripId = cursor.getInt(cursor.getColumnIndex("_id"));
                 tripIdDispatcher = tripId;
                 String tripName = cursor.getString(cursor.getColumnIndex("tripName"));
+                String tripDate = cursor.getString(cursor.getColumnIndex("tripEnd"));
+                // Find view to settler
                 TextView textView = (TextView) view.findViewById(R.id.tripGalleryName);
+                TextView dateTextView = (TextView) view.findViewById(R.id.galleryTripDate);
                 Button button = (Button) view.findViewById(R.id.tripGalleryButton);
+                // Set view information
                 textView.setText(tripName);
+                dateTextView.setText(TimestampConverter.timeStampToDate(tripDate).toString());
+                // Add listener intent to button
                 button.setOnClickListener(
                         new View.OnClickListener() {
                             @Override
@@ -98,7 +106,7 @@ public class TripGalleryAdapter extends RecyclerView.Adapter<TripGalleryAdapter.
         this.cursorAdapter.bindView(holder.itemView, this.context, this.cursorAdapter.getCursor());
     }
 
-    // Return the size of your dataset (invoked by the layout manager)
+    // Return the size of your data set (invoked by the layout manager)
     @Override
     public int getItemCount() {
         return cursorAdapter.getCount();
