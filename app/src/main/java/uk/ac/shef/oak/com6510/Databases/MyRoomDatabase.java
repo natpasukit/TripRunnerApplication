@@ -8,7 +8,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-@Database(entities = {LocAndSensorData.class,PhotoEntity.class}, version = 3, exportSchema = false)
+@Database(entities = {LocAndSensorData.class,PhotoEntity.class}, version = 4, exportSchema = false)
 public abstract class MyRoomDatabase extends RoomDatabase {
     public abstract LocDAO myLocDao();
     public abstract PhotoDAO photoDAO();

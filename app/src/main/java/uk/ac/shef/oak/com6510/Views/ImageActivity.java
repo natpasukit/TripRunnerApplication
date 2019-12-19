@@ -37,15 +37,15 @@ public class ImageActivity extends AppCompatActivity implements OnMapReadyCallba
         setContentView(R.layout.activity_photo_detail);
 
         Intent intent = getIntent();
-        int tripId = intent.getIntExtra("tripId",-1);
-        myImageViewAdapter = new ImageViewAdapter(getApplication(),this,tripId);
+        int tripId = intent.getIntExtra("tripId", -1);
+        myImageViewAdapter = new ImageViewAdapter(getApplication(), this, tripId);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.mapFragment2);
         mapFragment.getMapAsync(this);
 
-        stopId = intent.getIntExtra("tripStopId",-1);
+        stopId = intent.getIntExtra("tripStopId", -1);
         imagePath = intent.getStringExtra("imagePath");
-        Log.e("wgse",imagePath);
+        Log.e("wgse", imagePath);
     }
 
     @Override
@@ -54,7 +54,7 @@ public class ImageActivity extends AppCompatActivity implements OnMapReadyCallba
         googleMap.getUiSettings().setZoomControlsEnabled(true);
         ArrayList<LatLng> latLngs = myImageViewAdapter.getAllPointsLoc();
 
-        if(latLngs .size() > 0)
+        if (latLngs.size() > 0)
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLngs.get(0), 15.0f));
         googleMap.addPolyline(new PolylineOptions().addAll(latLngs).width(10).color(Color.RED));
 
@@ -63,16 +63,16 @@ public class ImageActivity extends AppCompatActivity implements OnMapReadyCallba
         TextView temp = (TextView) findViewById(R.id.temperatureValue1);
         ImageView photo = (ImageView) findViewById(R.id.detail_photo);
 
-        tripName.setText("Name: "+myImageViewAdapter.getTripName());
-        if(stopId == -1) {
+        tripName.setText("Name: " + myImageViewAdapter.getTripName());
+        if (stopId == -1) {
             baro.setText("");
             temp.setText("");
-        }else{
+        } else {
             LocAndSensorData l = myImageViewAdapter.getInfoById(stopId);
-            baro.setText("Barometer: "+l.getPreasureValue());
-            temp.setText("Tempterature: "+l.getTemperatureValue());
-            PhotoViewModel.getDecodedScaleImage(getApplication(),photo,imagePath);
-            googleMap.addMarker(new MarkerOptions().position(new LatLng(l.getLatitude(),l.getLongitude())));
+            baro.setText("Barometer: " + l.getPreasureValue());
+            temp.setText("Tempterature: " + l.getTemperatureValue());
+            photo.setImageBitmap(PhotoViewModel.getDecodedScaleImage(getApplication(), photo, imagePath));
+            googleMap.addMarker(new MarkerOptions().position(new LatLng(l.getLatitude(), l.getLongitude())));
         }
     }
 
