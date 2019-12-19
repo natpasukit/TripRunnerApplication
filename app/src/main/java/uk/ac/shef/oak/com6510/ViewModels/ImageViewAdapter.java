@@ -12,6 +12,10 @@ import java.util.ArrayList;
 import uk.ac.shef.oak.com6510.Databases.LocAndSensorData;
 import uk.ac.shef.oak.com6510.Databases.MapRepository;
 
+/**
+ * a class helps imageActivity to process data
+ * get the trip name route location and photo path
+ */
 public class ImageViewAdapter {
     private Application application;
     private Context context;
@@ -20,6 +24,12 @@ public class ImageViewAdapter {
     private ArrayList<LocAndSensorData> pointsInfo;
     private String tripName;
 
+    /**
+     * init the adpter take the trip id to process the specific trip
+     * @param application get the current application
+     * @param context get current context
+     * @param tripId get the target trip id
+     */
     public ImageViewAdapter(Application application, Context context, int tripId) {
         this.application = application;
         this.context = context;
@@ -28,6 +38,7 @@ public class ImageViewAdapter {
         this.pointsCursorList = this.mapRepository.getAllPointsInOneTrip(tripId);
         this.pointsInfo = new ArrayList<>();
 
+        //loop the cursor to restore the table row
         for (this.pointsCursorList.moveToFirst(); !this.pointsCursorList.isAfterLast(); this.pointsCursorList.moveToNext()) {
             int currId = this.pointsCursorList.getInt(this.pointsCursorList.getColumnIndex("id"));
             float currPressureValue = this.pointsCursorList.getFloat(this.pointsCursorList.getColumnIndex("preasureValue"));
