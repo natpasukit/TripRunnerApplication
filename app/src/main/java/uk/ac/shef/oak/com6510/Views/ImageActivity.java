@@ -3,24 +3,37 @@ package uk.ac.shef.oak.com6510.Views;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
+import java.util.ArrayList;
+
+import uk.ac.shef.oak.com6510.Databases.LocAndSensorData;
 import uk.ac.shef.oak.com6510.R;
 import uk.ac.shef.oak.com6510.ViewModels.ImageViewAdapter;
 import uk.ac.shef.oak.com6510.ViewModels.PhotoViewModel;
 
-public class ImageActivity extends AppCompatActivity {
+public class ImageActivity extends AppCompatActivity implements OnMapReadyCallback {
+    private GoogleMap googleMap;
     private ImageViewAdapter myImageViewAdapter;
 
     @Override
@@ -32,5 +45,19 @@ public class ImageActivity extends AppCompatActivity {
         int tripId = intent.getIntExtra("tripId",-1);
 
         myImageViewAdapter = new ImageViewAdapter(getApplication(),this,tripId);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.mapFragment2);
+        mapFragment.getMapAsync(this);
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        this.googleMap = googleMap;
+        googleMap.getUiSettings().setZoomControlsEnabled(true);
+
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myImageViewAdapter.getAllPointsLoc().get(0), 15.0f));
+        ArrayList<LatLng> latLngs = myImageViewAdapter.getAllPointsLoc();
+        googleMap.addPolyline(new PolylineOptions().addAll(latLngs).width(10).color(Color.RED));
+        Log.e("image",""+latLngs.size());
     }
 }
