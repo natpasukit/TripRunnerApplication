@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +29,6 @@ public class TripGalleryAdapter extends RecyclerView.Adapter<TripGalleryAdapter.
     private Cursor tripCursorList;
     private int rowIdColumn;
     private CursorAdapter cursorAdapter;
-    private int tripIdDispatcher;
     private LayoutInflater inflater;
 
     public TripGalleryAdapter(Application application, Context context) {
@@ -50,8 +50,7 @@ public class TripGalleryAdapter extends RecyclerView.Adapter<TripGalleryAdapter.
             @Override
             public void bindView(View view, final Context context, Cursor cursor) {
                 // Get data from cursor
-                int tripId = cursor.getInt(cursor.getColumnIndex("_id"));
-                tripIdDispatcher = tripId;
+                final int tripId = cursor.getInt(cursor.getColumnIndex("_id"));
                 String tripName = cursor.getString(cursor.getColumnIndex("tripName"));
                 String tripDate = cursor.getString(cursor.getColumnIndex("tripEnd"));
                 // Find view to settler
@@ -67,7 +66,7 @@ public class TripGalleryAdapter extends RecyclerView.Adapter<TripGalleryAdapter.
                             @Override
                             public void onClick(View v) {
                                 Intent intent = new Intent(context, ImageActivity.class);
-                                intent.putExtra("tripId", tripIdDispatcher);
+                                intent.putExtra("tripId", tripId);
                                 context.startActivity(intent);
                             }
                         }

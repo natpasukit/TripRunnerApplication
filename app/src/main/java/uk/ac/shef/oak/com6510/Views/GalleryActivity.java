@@ -36,7 +36,7 @@ public class GalleryActivity extends AppCompatActivity {
 //        recyclerView.setAdapter(adapter);
 
 
-        // Recycle view creation
+        //   Recycle view creation
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.tripGalleryInformationRecycler);
 
         // Linear layout manager

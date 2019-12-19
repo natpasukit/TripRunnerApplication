@@ -3,6 +3,7 @@ package uk.ac.shef.oak.com6510.ViewModels;
 import android.app.Application;
 import android.content.Context;
 import android.database.Cursor;
+import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -17,6 +18,7 @@ public class ImageViewAdapter {
     private MapRepository mapRepository;
     private Cursor pointsCursorList;
     private ArrayList<LocAndSensorData> pointsInfo;
+    private String tripName;
 
     public ImageViewAdapter(Application application, Context context, int tripId) {
         this.application = application;
@@ -39,6 +41,8 @@ public class ImageViewAdapter {
             float currTemperature = this.pointsCursorList.getFloat(this.pointsCursorList.getColumnIndex("temperatureValue"));
             long currTimeStamp = this.pointsCursorList.getLong(this.pointsCursorList.getColumnIndex("timeStamp"));
 
+            tripName = currTripName;
+
             LocAndSensorData l = new LocAndSensorData(currTimeStamp,currTemperature,currPressureValue,currPressureAccurancy,currLat,currLon,currTripId,currTripName);
             l.setId(currId);
             pointsInfo.add(l);
@@ -51,5 +55,19 @@ public class ImageViewAdapter {
             p.add(new LatLng(l.getLatitude(),l.getLongitude()));
         }
         return p;
+    }
+
+    public LocAndSensorData getInfoById(int id){
+        for(LocAndSensorData l : pointsInfo) {
+            if(l.getId() == id){
+                return l;
+            }
+
+        }
+        return null;
+    }
+
+    public String getTripName() {
+        return tripName;
     }
 }

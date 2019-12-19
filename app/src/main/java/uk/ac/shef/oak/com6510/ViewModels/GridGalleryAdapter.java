@@ -26,8 +26,6 @@ public class GridGalleryAdapter extends RecyclerView.Adapter<GridGalleryAdapter.
     private LayoutInflater inflater;
     private CursorAdapter cursorAdapter;
     private Cursor imageCursorList;
-    private int photoStopDispatcher;
-    private int photoTripIdDispatcher;
 
     public GridGalleryAdapter(final Application application, Context context) {
         this.application = application;
@@ -49,8 +47,8 @@ public class GridGalleryAdapter extends RecyclerView.Adapter<GridGalleryAdapter.
                 // Get data from cursor
                 String imagePath = cursor.getString(cursor.getColumnIndex("photoFileDirectory"));
                 String imageDate = cursor.getString(cursor.getColumnIndex("photoDate"));
-                photoStopDispatcher = cursor.getInt(cursor.getColumnIndex("tripStopId"));
-                photoTripIdDispatcher = cursor.getInt(cursor.getColumnIndex("tripId"));
+                final int photoStopDispatcher = cursor.getInt(cursor.getColumnIndex("tripStopId"));
+                final int photoTripIdDispatcher = cursor.getInt(cursor.getColumnIndex("tripId"));
 
                 // Find view to settler
                 TextView textView = (TextView) view.findViewById(R.id.recyclerGridTextId);

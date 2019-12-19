@@ -24,6 +24,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -35,6 +36,7 @@ import uk.ac.shef.oak.com6510.ViewModels.PhotoViewModel;
 public class ImageActivity extends AppCompatActivity implements OnMapReadyCallback {
     private GoogleMap googleMap;
     private ImageViewAdapter myImageViewAdapter;
+    private int stopId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,21 +45,39 @@ public class ImageActivity extends AppCompatActivity implements OnMapReadyCallba
 
         Intent intent = getIntent();
         int tripId = intent.getIntExtra("tripId",-1);
-
         myImageViewAdapter = new ImageViewAdapter(getApplication(),this,tripId);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.mapFragment2);
         mapFragment.getMapAsync(this);
+
+        stopId = intent.getIntExtra("tripStopId",-1);
+        
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         this.googleMap = googleMap;
         googleMap.getUiSettings().setZoomControlsEnabled(true);
-
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myImageViewAdapter.getAllPointsLoc().get(0), 15.0f));
         ArrayList<LatLng> latLngs = myImageViewAdapter.getAllPointsLoc();
+
+        if(latLngs .size() > 0)
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLngs.get(0), 15.0f));
         googleMap.addPolyline(new PolylineOptions().addAll(latLngs).width(10).color(Color.RED));
-        Log.e("image",""+latLngs.size());
+
+        TextView tripName = (TextView) findViewById(R.id.tripName);
+        TextView baro = (TextView) findViewById(R.id.barometerValue1);
+        TextView temp = (TextView) findViewById(R.id.temperatureValue1);
+
+        tripName.setText("Name: "+myImageViewAdapter.getTripName());
+        if(stopId == -1) {
+            baro.setText("");
+            temp.setText("");
+        }else{
+            LocAndSensorData l = myImageViewAdapter.getInfoById(stopId);
+            baro.setText("Barometer: "+l.getPreasureValue());
+            temp.setText("Tempterature: "+l.getTemperatureValue());
+            googleMap.addMarker(new MarkerOptions().position(new LatLng(l.getLatitude(),l.getLongitude())));
+        }
     }
+
 }
