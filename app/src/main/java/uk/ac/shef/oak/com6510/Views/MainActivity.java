@@ -77,6 +77,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        /**
+         * Set button listener to redirect to gallery
+         */
         Button buttonGirdView = (Button) findViewById(R.id.startGridView);
         buttonGirdView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,6 +89,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        /**
+         * Set button listener to redirect to trip view
+         */
         Button buttonTripView = (Button) findViewById(R.id.startTripView);
         buttonTripView.setOnClickListener(new View.OnClickListener() {
             @Override

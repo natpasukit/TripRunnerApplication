@@ -26,16 +26,24 @@ import uk.ac.shef.oak.com6510.R;
 import uk.ac.shef.oak.com6510.ViewModels.ImageViewAdapter;
 import uk.ac.shef.oak.com6510.ViewModels.PhotoViewModel;
 
+/**
+ * Activity to show the path info and image detail info
+ */
 public class ImageActivity extends AppCompatActivity implements OnMapReadyCallback {
     private GoogleMap googleMap;
     private ImageViewAdapter myImageViewAdapter;
     private int stopId;
     private String imagePath;
 
+    /**
+     * onCreate funciton for the activity
+     * get tripid and stopId from last activity
+     * stopId == -1 will load the path view, otherwise to load the image view
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
 
         Intent intent = getIntent();
         int tripId = intent.getIntExtra("tripId", -1);
@@ -54,6 +62,10 @@ public class ImageActivity extends AppCompatActivity implements OnMapReadyCallba
         mapFragment.getMapAsync(this);
     }
 
+    /**
+     * when map is finished loading ask to imageApter to retrieve data for view and set the view
+     * @param googleMap
+     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         this.googleMap = googleMap;
