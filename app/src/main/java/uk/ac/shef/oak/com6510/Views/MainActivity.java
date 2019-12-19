@@ -75,10 +75,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-        /**
-         * Set button lister to go to imageActivity
-         * @// TODO: Direct to gallery instead
-         */
+
         final FloatingActionButton floatingActionButton = (FloatingActionButton) findViewById(R.id.accessPhotoGallery);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
