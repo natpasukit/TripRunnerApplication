@@ -1,6 +1,5 @@
 package uk.ac.shef.oak.com6510.ViewModels;
 
-import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
@@ -17,8 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import uk.ac.shef.oak.com6510.Databases.GalleryRepository;
 import uk.ac.shef.oak.com6510.Databases.MapRepository;
 import uk.ac.shef.oak.com6510.R;
+
 import uk.ac.shef.oak.com6510.Utils.TimestampConverter;
-import uk.ac.shef.oak.com6510.Views.ShowImageActivity;
+import uk.ac.shef.oak.com6510.Views.ImageActivity;
 
 public class TripGalleryAdapter extends RecyclerView.Adapter<TripGalleryAdapter.ViewHolder> {
     private Application application;
@@ -66,7 +66,7 @@ public class TripGalleryAdapter extends RecyclerView.Adapter<TripGalleryAdapter.
                         new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Intent intent = new Intent(context, ShowImageActivity.class);
+                                Intent intent = new Intent(context, ImageActivity.class);
                                 intent.putExtra("tripId", tripIdDispatcher);
                                 context.startActivity(intent);
                             }
