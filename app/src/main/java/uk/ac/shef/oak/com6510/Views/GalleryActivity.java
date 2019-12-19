@@ -6,10 +6,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import uk.ac.shef.oak.com6510.Models.PhotoModel;
 import uk.ac.shef.oak.com6510.R;
 import uk.ac.shef.oak.com6510.ViewModels.TripGalleryAdapter;
 
 public class GalleryActivity extends AppCompatActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,4 +31,6 @@ public class GalleryActivity extends AppCompatActivity {
         RecyclerView.Adapter adapter = new TripGalleryAdapter(this.getApplication(),this);
         recyclerView.setAdapter(adapter);
     }
+
+
 }

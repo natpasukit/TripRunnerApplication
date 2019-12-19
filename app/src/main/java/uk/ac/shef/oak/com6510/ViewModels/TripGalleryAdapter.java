@@ -3,6 +3,7 @@ package uk.ac.shef.oak.com6510.ViewModels;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import uk.ac.shef.oak.com6510.Databases.GalleryRepository;
 import uk.ac.shef.oak.com6510.Databases.MapRepository;
 import uk.ac.shef.oak.com6510.R;
+import uk.ac.shef.oak.com6510.Views.ShowImageActivity;
 
 public class TripGalleryAdapter extends RecyclerView.Adapter<TripGalleryAdapter.ViewHolder> {
     private Application application;
@@ -25,6 +27,7 @@ public class TripGalleryAdapter extends RecyclerView.Adapter<TripGalleryAdapter.
     private Cursor tripCursorList;
     private int rowIdColumn;
     private CursorAdapter cursorAdapter;
+    private int tripIdDispatcher;
 
     public TripGalleryAdapter(Application application, Context context) {
         this.application = application;
@@ -39,19 +42,28 @@ public class TripGalleryAdapter extends RecyclerView.Adapter<TripGalleryAdapter.
                 LayoutInflater inflater = LayoutInflater.from(context);
                 // Inflate layout
                 View view = inflater.inflate(R.layout.trip_gallery_card, parent, false);
-//                ViewHolder viewHolder = new ViewHolder(view);
                 return view;
 
             }
 
             @Override
-            public void bindView(View view, Context context, Cursor cursor) {
+            public void bindView(View view, final Context context, Cursor cursor) {
                 int tripId = cursor.getInt(cursor.getColumnIndex("_id"));
+                tripIdDispatcher = tripId;
                 String tripName = cursor.getString(cursor.getColumnIndex("tripName"));
                 TextView textView = (TextView) view.findViewById(R.id.tripGalleryName);
                 Button button = (Button) view.findViewById(R.id.tripGalleryButton);
                 textView.setText(tripName);
-//                button.setText(tripId);
+                button.setOnClickListener(
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(context, ShowImageActivity.class);
+                                intent.putExtra("tripId", tripIdDispatcher);
+                                context.startActivity(intent);
+                            }
+                        }
+                );
             }
         };
 
@@ -77,21 +89,11 @@ public class TripGalleryAdapter extends RecyclerView.Adapter<TripGalleryAdapter.
     public TripGalleryAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = this.cursorAdapter.newView(this.context, this.cursorAdapter.getCursor(), parent);
         return new ViewHolder(view);
-//        Context context = parent.getContext();
-//        LayoutInflater inflater = LayoutInflater.from(context);
-//
-//        // Inflate layout
-//        View view = inflater.inflate(R.layout.trip_gallery_card, parent, false);
-//
-//        ViewHolder viewHolder = new ViewHolder(view);
-//        return viewHolder;
     }
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        // - get element from your dataset at this position
-        // - replace the contents of the view with that element
         this.cursorAdapter.getCursor().moveToPosition(position);
         this.cursorAdapter.bindView(holder.itemView, this.context, this.cursorAdapter.getCursor());
     }
