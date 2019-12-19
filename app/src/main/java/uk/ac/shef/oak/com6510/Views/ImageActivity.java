@@ -1,6 +1,7 @@
 package uk.ac.shef.oak.com6510.Views;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -15,9 +16,11 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import uk.ac.shef.oak.com6510.Databases.LocAndSensorData;
@@ -69,8 +72,21 @@ public class ImageActivity extends AppCompatActivity implements OnMapReadyCallba
         } else {
             LocAndSensorData l = myImageViewAdapter.getInfoById(stopId);
             baro.setText("Barometer: " + l.getPreasureValue());
-            temp.setText("Tempterature: " + l.getTemperatureValue());
-            photo.setImageBitmap(PhotoViewModel.getDecodedScaleImage(getApplication(), photo, imagePath));
+            temp.setText("Temperature: " + l.getTemperatureValue());
+            Bitmap photoBitmap = PhotoViewModel.getDecodedScaleImage(getApplication(), photo, imagePath);
+            if (photoBitmap != null) {
+                photo.setImageBitmap(photoBitmap);
+                photo.setOnClickListener(new ImageView.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(getApplicationContext(), FullImageActivity.class);
+                        intent.putExtra("imagePath", imagePath);
+                        startActivity(intent);
+                        finish();
+                    }
+                });
+            }
+
             googleMap.addMarker(new MarkerOptions().position(new LatLng(l.getLatitude(), l.getLongitude())));
         }
     }
