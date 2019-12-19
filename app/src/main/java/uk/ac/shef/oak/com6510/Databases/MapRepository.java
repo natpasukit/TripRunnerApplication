@@ -134,7 +134,7 @@ public class MapRepository extends ViewModel {
         @Override
         protected LocAndSensorData doInBackground(Void... URL) {
             Log.i("MyMapRepository", "Retieve latest trip");
-            return mAsyncTaskDao.retrieveLatestLocData();
+            return mAsyncTaskDao.retrieveLatestTripData();
         }
     }
 

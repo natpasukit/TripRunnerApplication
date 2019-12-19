@@ -5,6 +5,10 @@ import androidx.room.Relation;
 
 import java.util.List;
 
+/**
+ * Define the relations between photo table and Loc table
+ */
+
 public class LocAndSensorDataAndPhotoRelation {
     @Embedded public LocAndSensorData locAndSensorData;
     @Relation(

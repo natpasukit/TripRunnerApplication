@@ -4,6 +4,21 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+/**
+ * Define a table to store the location and sensor data
+ *
+ * id is the primary key
+ *
+ * pressureValue and pressureValueAccurancy to store the barometer data
+ * temperatureValue to store the temperature data
+ *
+ * latitude and longitude to store the location info
+ *
+ * tripId and tripName to store the trip info
+ *
+ * timestamp to store the time of create the data
+ */
+
 @Entity(tableName = "loc_and_sensor_data")
 public class LocAndSensorData {
     @PrimaryKey(autoGenerate = true)
@@ -11,7 +26,7 @@ public class LocAndSensorData {
     private int id = 0;
 
     private float preasureValue;
-    private int preasureVauleAccurany;
+    private int preasureVauleAccurancy;
     private float temperatureValue;
 
     private double longitude;
@@ -20,9 +35,9 @@ public class LocAndSensorData {
     private String tripName;
     private long timeStamp;
 
-    public LocAndSensorData(long timeStamp,float temperatureValue, float preasureValue, int preasureVauleAccurany, double latitude, double longitude, int tripId, String tripName) {
+    public LocAndSensorData(long timeStamp,float temperatureValue, float preasureValue, int preasureVauleAccurancy, double latitude, double longitude, int tripId, String tripName) {
         this.preasureValue = preasureValue;
-        this.preasureVauleAccurany = preasureVauleAccurany;
+        this.preasureVauleAccurancy = preasureVauleAccurancy;
         this.latitude = latitude;
         this.longitude = longitude;
         this.tripId = tripId;
@@ -39,8 +54,8 @@ public class LocAndSensorData {
         return id;
     }
 
-    public int getPreasureVauleAccurany() {
-        return preasureVauleAccurany;
+    public int getPreasureVauleAccurancy() {
+        return preasureVauleAccurancy;
     }
 
     public double getLatitude() {
@@ -81,7 +96,7 @@ public class LocAndSensorData {
         this.preasureValue = preasure_value;
     }
 
-    public void setPreasureVauleAccurany(int preasureVauleAccurany) { this.preasureVauleAccurany = preasureVauleAccurany; }
+    public void setPreasureVauleAccurancy(int preasureVauleAccurancy) { this.preasureVauleAccurancy = preasureVauleAccurancy; }
 
     public void setTripName(String tripName) {
         this.tripName = tripName;
