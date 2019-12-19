@@ -2,6 +2,7 @@ package uk.ac.shef.oak.com6510.ViewModels;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import uk.ac.shef.oak.com6510.Databases.GalleryRepository;
 import uk.ac.shef.oak.com6510.Databases.MapRepository;
 import uk.ac.shef.oak.com6510.R;
+import uk.ac.shef.oak.com6510.Views.ImageActivity;
 
 public class GridGalleryAdapter extends RecyclerView.Adapter<GridGalleryAdapter.ViewHolder> {
     private Application application;
@@ -24,6 +26,8 @@ public class GridGalleryAdapter extends RecyclerView.Adapter<GridGalleryAdapter.
     private LayoutInflater inflater;
     private CursorAdapter cursorAdapter;
     private Cursor imageCursorList;
+    private int photoStopDispatcher;
+    private int photoTripIdDispatcher;
 
     public GridGalleryAdapter(final Application application, Context context) {
         this.application = application;
@@ -41,16 +45,27 @@ public class GridGalleryAdapter extends RecyclerView.Adapter<GridGalleryAdapter.
             }
 
             @Override
-            public void bindView(View view, Context context, Cursor cursor) {
+            public void bindView(View view, final Context context, Cursor cursor) {
                 // Get data from cursor
                 String imagePath = cursor.getString(cursor.getColumnIndex("photoFileDirectory"));
                 String imageDate = cursor.getString(cursor.getColumnIndex("photoDate"));
-                int photoStopId = cursor.getInt(cursor.getColumnIndex("tripStopId"));
+                photoStopDispatcher = cursor.getInt(cursor.getColumnIndex("tripStopId"));
+                photoTripIdDispatcher = cursor.getInt(cursor.getColumnIndex("tripId"));
+
                 // Find view to settler
                 TextView textView = (TextView) view.findViewById(R.id.recyclerGridTextId);
                 ImageView imageView = (ImageView) view.findViewById(R.id.recyclerGridImage);
                 // Decode scale image
                 imageView.setImageBitmap(PhotoViewModel.getDecodedScaleImage(application, imageView, imagePath));
+                imageView.setOnClickListener(new ImageView.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(context, ImageActivity.class);
+                        intent.putExtra("tripStopId", photoStopDispatcher);
+                        intent.putExtra("tripId", photoTripIdDispatcher);
+                        context.startActivity(intent);
+                    }
+                });
             }
         };
     }
